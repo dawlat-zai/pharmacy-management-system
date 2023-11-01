@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
 import vue from '@vitejs/plugin-vue';
+import path from 'path';
 
 export default defineConfig({
   plugins: [
@@ -10,4 +11,17 @@ export default defineConfig({
     }),
     vue(),
   ],
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, 'resources/js/'),
+      '~': path.resolve(__dirname, 'resources/'),
+    },
+  },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: `@import "~/assets/scss/global.scss";`,
+      },
+    },
+  },
 });

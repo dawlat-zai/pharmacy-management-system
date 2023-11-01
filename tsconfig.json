@@ -3,7 +3,9 @@
     "target": "es6",
     "module": "es6",
     "moduleResolution": "node",
-    "strict": true
+    "strict": true,
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true
   },
   "include": ["resources/js/**/*"], // Frontend paths pattern
   "exclude": ["node_modules"]

@@ -1,5 +1,5 @@
 <template>
-  <h1>Welcome to pharmacy management system</h1>
+  <h1>{{ $t('shared.welcome') }}</h1>
 </template>
 
 <style lang="scss">

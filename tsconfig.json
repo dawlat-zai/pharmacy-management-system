@@ -1,11 +1,16 @@
 {
   "compilerOptions": {
-    "target": "es6",
-    "module": "es6",
+    "target": "es2022",
+    "module": "es2022",
     "moduleResolution": "node",
     "strict": true,
     "resolveJsonModule": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["resources/js/*"],
+      "~/*": ["resources/*"],
+    },
   },
   "include": ["resources/js/**/*"], // Frontend paths pattern
   "exclude": ["node_modules"]

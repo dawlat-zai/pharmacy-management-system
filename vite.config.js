@@ -6,7 +6,7 @@ import path from 'path';
 export default defineConfig({
   plugins: [
     laravel({
-      input: ['resources/css/app.css', 'resources/js/app.js'],
+      input: ['resources/js/app.js'],
       refresh: true,
     }),
     vue(),
@@ -14,9 +14,9 @@ export default defineConfig({
   resolve: {
     alias: {
       // eslint-disable-next-line no-undef
-      '@': path.resolve(__dirname, 'resources/js/'),
+      '@': path.resolve(__dirname, 'resources/js'),
       // eslint-disable-next-line no-undef
-      '~': path.resolve(__dirname, 'resources/'),
+      '~': path.resolve(__dirname, 'resources'),
     },
     extensions: ['.vue', '.js', '.ts', '.json'],
   },

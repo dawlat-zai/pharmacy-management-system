@@ -1,6 +1,10 @@
 <template>
-  <h1>{{ $t('shared.welcome') }}</h1>
+  <router-view :key="$route.fullPath"></router-view>
 </template>
+
+<script setup lang="ts">
+import { RouterView } from 'vue-router';
+</script>
 
 <style lang="scss">
 h1 {

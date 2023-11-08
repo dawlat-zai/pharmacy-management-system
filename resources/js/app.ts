@@ -7,9 +7,7 @@ import { defaultLocale, messages } from './locales';
 
 // vuetify imports
 import 'vuetify/styles';
-import { createVuetify } from 'vuetify';
-import * as components from 'vuetify/components';
-import * as directives from 'vuetify/directives';
+import vuetify from '@/plugins/vuetify';
 
 // vue router import
 import router from './router';
@@ -21,11 +19,6 @@ const i18n = createI18n({
   messages,
   locale: defaultLocale,
   fallbackLocale: defaultLocale,
-});
-
-const vuetify = createVuetify({
-  components,
-  directives,
 });
 
 const app = createApp(App);

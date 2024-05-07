@@ -19,13 +19,16 @@ const routes = [
     {
         path: '/',
         name: 'login',
-        component: import('@/views/auth/LoginView.vue'),
+        component: () => import('@/views/auth/LoginView.vue'),
     },
     {
         path: '/dashboard',
         name: 'dashboard',
-        component: import('@/views/DashboardView.vue'),
+        component: () => import('@/views/DashboardView.vue'),
         beforeEnter: AuthGuard,
+        meta: {
+            layout: 'AppLayoutAdmin',
+        },
     },
 ];
 

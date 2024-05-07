@@ -1,7 +1,15 @@
 <template>
-  <router-view :key="$route.fullPath"></router-view>
+    <AppLayout />
 </template>
 
-<script setup lang="ts">
-import { RouterView } from 'vue-router';
+<script lang="ts">
+import { defineComponent } from 'vue';
+import AppLayout from '@/layouts/AppLayout.vue';
+
+export default defineComponent({
+    name: 'App',
+    components: {
+        AppLayout,
+    },
+});
 </script>

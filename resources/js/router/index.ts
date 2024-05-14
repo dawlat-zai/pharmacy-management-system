@@ -30,6 +30,15 @@ const routes = [
             layout: 'AppLayoutAdmin',
         },
     },
+    {
+        path: '/users',
+        name: 'users',
+        component: () => import('@/views/users/IndexView.vue'),
+        beforeEnter: AuthGuard,
+        meta: {
+            layout: 'AppLayoutAdmin',
+        },
+    },
 ];
 
 const router = createRouter({

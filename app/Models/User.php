@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
@@ -18,7 +19,8 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'first_name',
+        'last_name',
         'email',
         'password',
     ];
@@ -42,4 +44,21 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    /*
+     * Filter users
+    */
+    public function scopeFilter($query, array $filters)
+    {
+        $query->when($filters['search'] ?? null, fn ($query, $search) =>
+            $query->where(fn ($query) =>
+                $query->where(DB::raw("CONCAT(first_name, ' ', last_name)"), 'like', '%' . $search . '%')
+                    ->orWhere('email', 'like', '%' . $search . '%')
+            )
+        );
+        
+        if (isset($filters['sort_by']) && isset($filters['sort_order'])) {
+            $query->orderBy($filters['sort_by'], $filters['sort_order']);
+        }
+    }
 }

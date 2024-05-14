@@ -16,9 +16,15 @@
                     title="Dashboard"
                     value="dashboard"
                     :active="route.name == 'dashboard'"
-                    :to="{name: 'dashboard'}"
+                    :to="{ name: 'dashboard' }"
                 ></v-list-item>
-                <v-list-item prepend-icon="mdi-account-group-outline" title="Users" value="users"></v-list-item>
+                <v-list-item
+                    prepend-icon="mdi-account-group-outline"
+                    title="Users"
+                    value="users"
+                    :active="route.name == 'users'"
+                    :to="{ name: 'users' }"
+                ></v-list-item>
             </v-list>
 
             <template v-slot:append>

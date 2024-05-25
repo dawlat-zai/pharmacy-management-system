@@ -39,6 +39,24 @@ const routes = [
             layout: 'AppLayoutAdmin',
         },
     },
+    {
+        path: '/users/create',
+        name: 'users_create',
+        component: () => import('@/views/users/CreateView.vue'),
+        beforeEnter: AuthGuard,
+        meta: {
+            layout: 'AppLayoutAdmin',
+        },
+    },
+    {
+        path: '/users/:id/edit',
+        name: 'users_edit',
+        component: () => import('@/views/users/EditView.vue'),
+        beforeEnter: AuthGuard,
+        meta: {
+            layout: 'AppLayoutAdmin',
+        },
+    },
 ];
 
 const router = createRouter({

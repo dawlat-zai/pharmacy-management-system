@@ -7,6 +7,8 @@
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
+    "noImplicitAny": false,
+    "allowJs": true,
     "paths": {
       "@/*": ["resources/js/*"],
       "~/*": ["resources/*"],

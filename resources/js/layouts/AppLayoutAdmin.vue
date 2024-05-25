@@ -22,7 +22,7 @@
                     prepend-icon="mdi-account-group-outline"
                     title="Users"
                     value="users"
-                    :active="route.name == 'users'"
+                    :active="(route.name as string).startsWith('users')"
                     :to="{ name: 'users' }"
                 ></v-list-item>
             </v-list>
@@ -36,15 +36,22 @@
 
         <v-main class="ma-8" style="height: calc(100vh - 64px)">
             <slot />
+
+            <success-message />
+            <error-message />
         </v-main>
     </v-layout>
 </template>
 
 <script setup lang="ts">
-import { useAuthStore } from '@/store';
+import { useAuthStore, useSuccessMessageStore } from '@/store';
 import { useRoute } from 'vue-router';
+import SuccessMessage from '@/components/SuccessMessage.vue';
+import ErrorMessage from '@/components/ErrorMessage.vue';
 
 const authStore = useAuthStore();
 
 const route = useRoute();
+
+const successMessageStore = useSuccessMessageStore();
 </script>

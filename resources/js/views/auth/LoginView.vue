@@ -4,22 +4,32 @@
         <v-card-text>
             <v-alert type="error" v-if="errorMsg" :text="errorMsg" class="mb-4" />
             <v-form @submit.prevent="login">
-                <v-text-field
-                    label="Email"
-                    v-model="email"
-                    v-bind="emailProps"
-                    variant="underlined"
-                    color="primary"
-                ></v-text-field>
+                <div class="my-4">
+                    <v-text-field
+                        label="Email"
+                        v-model="email"
+                        v-bind="emailProps"
+                        variant="outlined"
+                        color="primary"
+                        density="compact"
+                        rounded="lg"
+                        hide-details="auto"
+                    ></v-text-field>
+                </div>
 
-                <v-text-field
-                    type="password"
-                    label="Password"
-                    v-model="password"
-                    v-bind="passwordProps"
-                    variant="underlined"
-                    color="primary"
-                ></v-text-field>
+                <div class="my-4">
+                    <v-text-field
+                        type="password"
+                        label="Password"
+                        v-model="password"
+                        v-bind="passwordProps"
+                        variant="outlined"
+                        color="primary"
+                        density="compact"
+                        rounded="lg"
+                        hide-details="auto"
+                    ></v-text-field>
+                </div>
 
                 <div class="mb-4">
                     <router-link :to="{ name: '' }" class="text-decoration-none text-primary"
@@ -27,7 +37,7 @@
                     >
                 </div>
 
-                <v-btn type="submit" block color="primary" size="large">Login</v-btn>
+                <v-btn type="submit" block color="primary" rounded="lg">Login</v-btn>
             </v-form>
         </v-card-text>
     </v-card>

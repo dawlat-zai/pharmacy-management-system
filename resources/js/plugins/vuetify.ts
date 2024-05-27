@@ -2,9 +2,17 @@ import { createVuetify } from 'vuetify';
 import * as components from 'vuetify/components';
 import * as directives from 'vuetify/directives';
 
+import { en } from 'vuetify/locale';
+import { ps } from '@/locales/vuetify/ps';
+
+import { defaultLocale, fallbackLocale } from '@/locales';
+
 import '@mdi/font/css/materialdesignicons.css';
 
 import "~/assets/scss/main.scss";
+import Cookies from 'js-cookie';
+
+const locale = Cookies.get('locale') || defaultLocale;
 
 export default createVuetify({
   theme: {
@@ -32,6 +40,14 @@ export default createVuetify({
   },
   icons: {
     defaultSet: 'mdi', // This is already the default value - only for display purposes
+  },
+  locale: {
+    locale: locale,
+    fallback: fallbackLocale,
+    messages: { en, ps },
+    rtl: {
+      ps: true,
+    },
   },
   components,
   directives,

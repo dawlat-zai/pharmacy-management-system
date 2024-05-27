@@ -1,15 +1,13 @@
-import { Locales } from './locales';
+import { Locales, LOCALES } from './locales';
 
-import enShared from './en/shared.json';
+import en from './en.json';
+import ps from './ps.json';
 
 /* TODO add lazy loading for translations
  * see https://vue-i18n.intlify.dev/guide/advanced/lazy.html
  */
 
-export const messages = {
-  [Locales.EN]: {
-    shared: enShared,
-  },
-};
+export const messages = {en, ps};
 
 export const defaultLocale = Locales.EN;
+export const fallbackLocale = Locales.EN;

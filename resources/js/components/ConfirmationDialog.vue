@@ -14,7 +14,7 @@
   
   <script setup>
   import { ref, watch } from 'vue';
-  import { defineProps, defineEmits } from 'vue';
+  import { defineEmits } from 'vue';
   
   // Define props for title, message, and visibility
   const props = defineProps({

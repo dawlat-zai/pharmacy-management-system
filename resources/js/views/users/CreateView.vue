@@ -1,13 +1,13 @@
 <template>
     <v-row>
         <v-col cols="12" md="8">
-            <v-card title="Create user" rounded="lg">
+            <v-card :title="t('users.create.title')" rounded="lg">
                 <v-form @submit.prevent="submit">
                     <v-container>
                         <v-row>
                             <v-col cols="12" md="4" class="pb-2 pt-0">
                                 <v-text-field
-                                    label="First Name"
+                                    :label="t('users.form.labelFirstname')"
                                     v-model="firstName"
                                     v-bind="firstNameProps"
                                     variant="outlined"
@@ -19,7 +19,7 @@
                             </v-col>
                             <v-col cols="12" md="4" class="pb-2 pt-0">
                                 <v-text-field
-                                    label="Last Name"
+                                    :label="t('users.form.labelLastname')"
                                     v-model="lastName"
                                     v-bind="lastNameProps"
                                     variant="outlined"
@@ -33,7 +33,7 @@
                         <v-row>
                             <v-col cols="12" md="4" class="py-2">
                                 <v-text-field
-                                    label="Email"
+                                    :label="t('users.form.labelEmail')"
                                     v-model="email"
                                     v-bind="emailProps"
                                     variant="outlined"
@@ -48,7 +48,7 @@
                             <v-col cols="12" md="4" class="py-2">
                                 <v-text-field
                                     type="password"
-                                    label="Password"
+                                    :label="t('users.form.labelPassword')"
                                     v-model="password"
                                     v-bind="passwordProps"
                                     variant="outlined"
@@ -61,7 +61,7 @@
                             <v-col cols="12" md="4" class="py-2">
                                 <v-text-field
                                     type="password"
-                                    label="Password Confirmation"
+                                    :label="t('users.form.labelPasswordConfirmation')"
                                     v-model="passwordConfirmation"
                                     v-bind="passwordConfirmationProps"
                                     variant="outlined"
@@ -74,14 +74,13 @@
                         </v-row>
                         <v-row>
                             <v-col cols="12" md="4" class="pt-4">
-                                <v-btn type="submit" color="primary" rounded="lg">Save</v-btn>
+                                <v-btn type="submit" color="primary" rounded="lg" class="me-4">{{ $t('buttonSave') }}</v-btn>
                                 <v-btn
                                     @click="router.go(-1)"
                                     color="primary"
                                     variant="outlined"
                                     rounded="lg"
-                                    class="ml-4"
-                                    >Cancel</v-btn
+                                    >{{ $t('buttonCancel') }}</v-btn
                                 >
                             </v-col>
                         </v-row>
@@ -101,19 +100,22 @@ import * as yup from 'yup';
 import { useSuccessMessageStore } from '@/store';
 import { useErrorMessageStore } from '@/store/errorMessage';
 import { AxiosError } from 'axios';
+import { useI18n } from 'vue-i18n';
 
 const router = useRouter();
 
+const { t } = useI18n();
+
 const schema = yup.object({
-    first_name: yup.string().required().label('First Name'),
-    last_name: yup.string().required().label('Last Name'),
-    email: yup.string().email().required().label('E-mail'),
-    password: yup.string().required(),
+    first_name: yup.string().required().label(t('users.form.labelFirstname')),
+    last_name: yup.string().required().label(t('users.form.labelLastname')),
+    email: yup.string().email().required().label(t('users.form.labelEmail')),
+    password: yup.string().required().label(t('users.form.labelPassword')),
     password_confirmation: yup
         .string()
         .required()
-        .oneOf([yup.ref('password')], 'Passwords should match.')
-        .label('Password confirmation'),
+        .oneOf([yup.ref('password')], t('users.form.passwordConfirmationCustomValidationMessage'))
+        .label(t('users.form.labelPasswordConfirmation')),
 });
 
 const { defineField, handleSubmit } = useForm({
@@ -136,10 +138,11 @@ const [password, passwordProps] = defineField('password', vuetifyConfig);
 const [passwordConfirmation, passwordConfirmationProps] = defineField('password_confirmation', vuetifyConfig);
 
 const submit = handleSubmit((values) => {
+    console.log('error');
     const user = <UserCreate>{ ...values };
     UserService.create(user)
         .then((response) => {
-            successMessageStore.triggerSuccessMessage('User created successfully');
+            successMessageStore.triggerSuccessMessage(t('users.create.successMessage'));
             router.push({ name: 'users' });
         })
         .catch((error: AxiosError) => {

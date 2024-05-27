@@ -1,6 +1,5 @@
 <template>
-    <h1>Dashboard</h1>
+    <h1>{{ $t('welcome') }}</h1>
 </template>
 
-<script setup lang="ts">
-</script>
+<script setup lang="ts"></script>

@@ -1,0 +1,48 @@
+{
+    "welcome": "د درملتون مدیریت سیسټم ته ښه راغلاست",
+    "sidebarMenu": {
+        "dashboard": "کنټرول پینل",
+        "users": "کاروونکي"
+    },
+    "localeSwitcher": {
+        "labelSelectLanguage": "ژبه وټاکئ"
+    },
+    "buttonSave": "خوندي کول",
+    "buttonCancel": "لغوه کول",
+    "users": {
+        "list": {
+            "title": "کاروونکي",
+            "placeholderSearchUsers": "کاروونکي وپلټئ",
+            "btnCreateUser": "نوی کاروونکی جوړ کړئ",
+            "tableHeader": {
+                "firstname": "لومړی نوم",
+                "lastname": "تخلص",
+                "email": "برېښنالیک"
+            },
+            "tooltipEditUser": "کاروونکی سمول",
+            "tooltipDeleteUser": "کاروونکی ړنګول",
+            "deleteConfirmationTitle": "د ړنګولو تایید",
+            "deleteConfirmationMessage": "ایا تاسو ډاډه یاست چې دا کاروونکی ړنګ کړئ؟"
+        },
+        "create": {
+            "title": "نوی کاروونکی جوړ کړئ",
+            "successMessage": "کاروونکی په بریالیتوب سره جوړ شو"
+        },
+        "edit": {
+            "title": "کاروونکی سمول",
+            "successMessage": "کاروونکی په بریالیتوب سره سمول شو"
+        },
+        "form": {
+            "labelFirstname": "لومړی نوم",
+            "labelLastname": "تخلص",
+            "labelEmail": "برېښنالیک",
+            "labelPassword": "پاسورډ",
+            "labelPasswordConfirmation": "د پاسورډ تایید",
+            "passwordConfirmationCustomValidationMessage": "پاسورډونه باید سره سمون ولري."
+        }
+    },
+    "validation": {
+        "required": "دغه برخه ضروري ده",
+        "email": "دغه برخه باید یو سم برېښنالیک وي"
+    }
+}

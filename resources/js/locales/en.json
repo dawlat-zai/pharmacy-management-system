@@ -2,7 +2,8 @@
     "welcome": "Welcome to pharmacy management system",
     "sidebarMenu": {
         "dashboard": "Dashboard",
-        "users": "Users"
+        "users": "Users",
+        "roles": "Roles"
     },
     "localeSwitcher": {
         "labelSelectLanguage": "Select Language"
@@ -18,7 +19,6 @@
                 "firstname": "First name",
                 "lastname": "Last name",
                 "email": "Email"
-
             },
             "tooltipEditUser": "Edit User",
             "tooltipDeleteUser": "Delete User",
@@ -40,6 +40,33 @@
             "labelPassword": "Password",
             "labelPasswordConfirmation": "Password Confirmation",
             "passwordConfirmationCustomValidationMessage": "Passwords should match."
+        }
+    },
+    "roles": {
+        "list": {
+            "title": "Roles",
+            "placeholderSearchRoles": "Search role",
+            "btnCreateRole": "Create Role",
+            "tableHeader": {
+                "name": "Name",
+                "createdAt": "Created at",
+                "updatedAt": "Updated at"
+            },
+            "tooltipEditRole": "Edit Role",
+            "tooltipDeleteRole": "Delete Role",
+            "deleteConfirmationTitle": "Confirm Delete",
+            "deleteConfirmationMessage": "Are you sure you want to delete this role?"
+        },
+        "create": {
+            "title": "Create Role",
+            "successMessage": "Role created successfully"
+        },
+        "edit": {
+            "title": "Edit Role",
+            "successMessage": "Role edited successfully"
+        },
+        "form": {
+            "labelName": "Name"
         }
     },
     "validation": {

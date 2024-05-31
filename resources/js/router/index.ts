@@ -57,6 +57,33 @@ const routes = [
             layout: 'AppLayoutAdmin',
         },
     },
+    {
+        path: '/roles',
+        name: 'roles',
+        component: () => import('@/views/roles/IndexView.vue'),
+        beforeEnter: AuthGuard,
+        meta: {
+            layout: 'AppLayoutAdmin',
+        },
+    },
+    {
+        path: '/roles/create',
+        name: 'roles_create',
+        component: () => import('@/views/roles/CreateView.vue'),
+        beforeEnter: AuthGuard,
+        meta: {
+            layout: 'AppLayoutAdmin',
+        },
+    },
+    {
+        path: '/roles/:id/edit',
+        name: 'roles_edit',
+        component: () => import('@/views/roles/EditView.vue'),
+        beforeEnter: AuthGuard,
+        meta: {
+            layout: 'AppLayoutAdmin',
+        },
+    },
 ];
 
 const router = createRouter({

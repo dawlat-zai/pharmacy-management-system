@@ -1,10 +1,10 @@
 <template>
     <v-card rounded="lg">
-        <v-card-title>{{ $t('users.list.title') }}</v-card-title>
+        <v-card-title>{{ $t('roles.list.title') }}</v-card-title>
         <v-card-item class="mb-4">
             <v-text-field
                 v-model="searchKeyword"
-                :placeholder="t('users.list.placeholderSearchUsers')"
+                :placeholder="t('roles.list.placeholderSearchRoles')"
                 hide-details
                 variant="outlined"
                 density="compact"
@@ -16,32 +16,32 @@
             ></v-text-field>
 
             <template #append>
-                <v-btn :to="{ name: 'users_create' }" color="primary" rounded="lg">{{
-                    $t('users.list.btnCreateUser')
+                <v-btn :to="{ name: 'roles_create' }" color="primary" rounded="lg">{{
+                    $t('roles.list.btnCreateRole')
                 }}</v-btn>
             </template>
         </v-card-item>
 
         <v-data-table-server
-            v-model:items-per-page="usersPerPage"
+            v-model:items-per-page="rolesPerPage"
             :headers="headers"
-            :items="users"
-            :items-length="totalUsers"
+            :items="roles"
+            :items-length="totalRoles"
             :loading="loading"
             :search="search"
             item-value="id"
             hover
             rounded="0"
-            @update:options="loadUsers"
+            @update:options="loadRoles"
         >
             <template v-slot:item.action="{ item }">
                 <span>
-                    <v-icon @click="editUser(item.id)" class="mr-2">mdi-pencil</v-icon>
-                    <v-tooltip activator="parent" location="bottom">{{ $t('users.list.tooltipEditUser') }}</v-tooltip>
+                    <v-icon @click="editRole(item.id)" class="mr-2">mdi-pencil</v-icon>
+                    <v-tooltip activator="parent" location="bottom">{{ $t('roles.list.tooltipEditRole') }}</v-tooltip>
                 </span>
                 <span>
                     <v-icon @click="openDeleteDialog(item)">mdi-delete</v-icon>
-                    <v-tooltip activator="parent" location="bottom">{{ $t('users.list.tooltipDeleteUser') }}</v-tooltip>
+                    <v-tooltip activator="parent" location="bottom">{{ $t('roles.list.tooltipDeleteRole') }}</v-tooltip>
                 </span>
             </template>
         </v-data-table-server>
@@ -49,16 +49,16 @@
 
     <ConfirmationDialog
         v-model="dialogVisible"
-        :title="t('users.list.deleteConfirmationTitle')"
-        :message="t('users.list.deleteConfirmationMessage')"
-        @confirm="deleteUser"
+        :title="t('roles.list.deleteConfirmationTitle')"
+        :message="t('roles.list.deleteConfirmationMessage')"
+        @confirm="deleteRole"
         @cancel="cancelDelete"
     />
 </template>
 
 <script setup lang="ts">
-import { User } from '@/client/models/User';
-import UserService from '@/client/services/UserService';
+import { Role } from '@/client/models/Role';
+import RoleService from '@/client/services/RoleService';
 import router from '@/router';
 import { useErrorMessageStore, useLocaleStore, useSuccessMessageStore } from '@/store';
 import { AxiosError } from 'axios';
@@ -68,13 +68,13 @@ import { VDataTable } from 'vuetify/lib/components/index.mjs';
 import ConfirmationDialog from '@/components/ConfirmationDialog.vue';
 import { useI18n } from 'vue-i18n';
 
-const users = ref<User[]>();
+const roles = ref<Role[]>();
 
-const usersPerPage = ref(10);
+const rolesPerPage = ref(10);
 
 const loading = ref(true);
 
-const totalUsers = ref(0);
+const totalRoles = ref(0);
 
 const { t } = useI18n();
 
@@ -91,19 +91,19 @@ let debounceTimeout: number = 0;
 type ReadonlyHeaders = VDataTable['$props']['headers'];
 
 const headers = ref<ReadonlyHeaders>([
-    { title: t('users.list.tableHeader.firstname'), key: 'first_name', align: 'start' },
-    { title: t('users.list.tableHeader.lastname'), key: 'last_name', align: 'start' },
-    { title: t('users.list.tableHeader.email'), key: 'email', align: 'start' },
+    { title: t('roles.list.tableHeader.name'), key: 'name', align: 'start' },
+    { title: t('roles.list.tableHeader.createdAt'), key: 'created_at', align: 'start' },
+    { title: t('roles.list.tableHeader.updatedAt'), key: 'updated_at', align: 'start' },
     { title: '', key: 'action', align: 'end' },
 ]);
 
-const loadUsers = ({ page, itemsPerPage, sortBy }: any) => {
+const loadRoles = ({ page, itemsPerPage, sortBy }: any) => {
     loading.value = true;
-    UserService.getAll(searchKeyword.value, itemsPerPage, page, sortBy[0]?.key, sortBy[0]?.order)
+    RoleService.getAll(searchKeyword.value, itemsPerPage, page, sortBy[0]?.key, sortBy[0]?.order)
         .then((response: any) => {
-            users.value = response.data;
-            usersPerPage.value = response.pagination.per_page;
-            totalUsers.value = response.pagination.total;
+            roles.value = response.data;
+            rolesPerPage.value = response.pagination.per_page;
+            totalRoles.value = response.pagination.total;
             loading.value = false;
         })
         .catch((error: AxiosError) => {
@@ -122,47 +122,47 @@ const triggerSearch = () => {
     search.value = Date.now().toString();
 };
 
-const editUser = (id: number) => {
-    router.push({ name: 'users_edit', params: { id: id } });
+const editRole = (id: number) => {
+    router.push({ name: 'roles_edit', params: { id: id } });
 };
 
 const dialogVisible = ref(false);
-const userToDelete = ref<User | null>();
+const roleToDelete = ref<Role | null>();
 
-const openDeleteDialog = (user: User) => {
-    userToDelete.value = user;
+const openDeleteDialog = (role: Role) => {
+    roleToDelete.value = role;
     dialogVisible.value = true;
 };
 
-const deleteUser = () => {
-    if (userToDelete.value) {
-        UserService.delete(userToDelete.value.id)
+const deleteRole = () => {
+    if (roleToDelete.value) {
+        RoleService.delete(roleToDelete.value.id)
             .then((response) => {
-                successMessageStore.triggerSuccessMessage('User deleted successfully');
+                successMessageStore.triggerSuccessMessage('Role deleted successfully');
                 triggerSearch();
             })
             .catch((error: AxiosError) => {
                 errorMessageStore.triggerErrorMessage(error);
             });
 
-        // Reset userToDelete after deleting
-        userToDelete.value = null;
+        // Reset roleToDelete after deleting
+        roleToDelete.value = null;
     }
     dialogVisible.value = false;
 };
 
 const cancelDelete = () => {
-    userToDelete.value = null;
+    roleToDelete.value = null;
 };
 watch(
     () => localeStore.locale,
     (newLocale) => {
         headers.value = [
-            { title: t('users.list.tableHeader.firstname'), key: 'first_name', align: 'start' },
-            { title: t('users.list.tableHeader.lastname'), key: 'last_name', align: 'start' },
-            { title: t('users.list.tableHeader.email'), key: 'email', align: 'start' },
+            { title: t('roles.list.tableHeader.name'), key: 'name', align: 'start' },
+            { title: t('roles.list.tableHeader.createdAt'), key: 'created_at', align: 'start' },
+            { title: t('roles.list.tableHeader.updatedAt'), key: 'updated_at', align: 'start' },
             { title: '', key: 'action', align: 'end' },
-        ];
+        ]
     },
 );
 </script>

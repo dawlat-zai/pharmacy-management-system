@@ -26,6 +26,13 @@
                         :active="(route.name as string).startsWith('users')"
                         :to="{ name: 'users' }"
                     ></v-list-item>
+                    <v-list-item
+                        prepend-icon="mdi-account-group-outline"
+                        :title="t('sidebarMenu.roles')"
+                        value="roles"
+                        :active="(route.name as string).startsWith('roles')"
+                        :to="{ name: 'roles' }"
+                    ></v-list-item>
                 </v-list>
 
                 <template v-slot:append>

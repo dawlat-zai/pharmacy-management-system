@@ -38,6 +38,8 @@ class RoleController extends Controller
 
         $role = Role::create($input);
 
+        $role->syncPermissions($input['permission_ids']);
+
         return response()->json(new RoleResource($role), Response::HTTP_CREATED);
     }
 
@@ -46,6 +48,8 @@ class RoleController extends Controller
      */
     public function show(Role $role)
     {
+        $role->load('permissions');
+
         return response()->json(new RoleResource($role), Response::HTTP_OK);
     }
 
@@ -57,6 +61,8 @@ class RoleController extends Controller
         $input = $request->validated();
 
         $role->update($input);
+
+        $role->syncPermissions($input['permission_ids']);
 
         return response()->json(new RoleResource($role), Response::HTTP_OK);
     }

@@ -25,6 +25,7 @@ class StoreRoleRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', Rule::unique(Role::class)],
+            'permission_ids' => ['required', 'array'],
         ];
     }
 }

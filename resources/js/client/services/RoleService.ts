@@ -37,7 +37,7 @@ export default class {
         });
     }
 
-    public static get(id: number) {
+    public static get(id: number): Promise<Role> {
         return new Promise((resolve, reject) => {
             http.get('/api/roles/'+id)
                 .then((response) => {

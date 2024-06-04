@@ -43,7 +43,7 @@
             </v-navigation-drawer>
 
             <v-main class="ma-8" style="height: calc(100vh - 64px)">
-                <LocaleSwitcher />
+                <!-- <LocaleSwitcher /> -->
 
                 <slot />
 

@@ -1,5 +1,4 @@
-export type UserUpdate = {
-    id: string;
+export type UserInput = {
     first_name: string;
     last_name: string;
     email: string;

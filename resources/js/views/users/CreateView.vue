@@ -6,70 +6,23 @@
                     <v-container>
                         <v-row>
                             <v-col cols="12" md="4" class="pb-2 pt-0">
-                                <v-text-field
-                                    :label="t('users.form.labelFirstname')"
-                                    v-model="firstName"
-                                    v-bind="firstNameProps"
-                                    variant="outlined"
-                                    color="primary"
-                                    density="compact"
-                                    rounded="lg"
-                                    hide-details="auto"
-                                ></v-text-field>
+                                <InputText name="first_name" :label="t('users.form.labelFirstname')"></InputText>
                             </v-col>
                             <v-col cols="12" md="4" class="pb-2 pt-0">
-                                <v-text-field
-                                    :label="t('users.form.labelLastname')"
-                                    v-model="lastName"
-                                    v-bind="lastNameProps"
-                                    variant="outlined"
-                                    color="primary"
-                                    density="compact"
-                                    rounded="lg"
-                                    hide-details="auto"
-                                ></v-text-field>
+                                <InputText name="last_name" :label="t('users.form.labelLastname')"></InputText>
                             </v-col>
                         </v-row>
                         <v-row>
                             <v-col cols="12" md="4" class="py-2">
-                                <v-text-field
-                                    :label="t('users.form.labelEmail')"
-                                    v-model="email"
-                                    v-bind="emailProps"
-                                    variant="outlined"
-                                    color="primary"
-                                    density="compact"
-                                    rounded="lg"
-                                    hide-details="auto"
-                                ></v-text-field>
+                                <InputText name="email" type="email" :label="t('users.form.labelEmail')"></InputText>
                             </v-col>
                         </v-row>
                         <v-row>
                             <v-col cols="12" md="4" class="py-2">
-                                <v-text-field
-                                    type="password"
-                                    :label="t('users.form.labelPassword')"
-                                    v-model="password"
-                                    v-bind="passwordProps"
-                                    variant="outlined"
-                                    color="primary"
-                                    density="compact"
-                                    rounded="lg"
-                                    hide-details="auto"
-                                ></v-text-field>
+                                <InputText name="password" type="password" :label="t('users.form.labelPassword')"></InputText>
                             </v-col>
                             <v-col cols="12" md="4" class="py-2">
-                                <v-text-field
-                                    type="password"
-                                    :label="t('users.form.labelPasswordConfirmation')"
-                                    v-model="passwordConfirmation"
-                                    v-bind="passwordConfirmationProps"
-                                    variant="outlined"
-                                    color="primary"
-                                    density="compact"
-                                    rounded="lg"
-                                    hide-details="auto"
-                                ></v-text-field>
+                                <InputText name="password_confirmation" type="password" :label="t('users.form.labelPasswordConfirmation')"></InputText>
                             </v-col>
                         </v-row>
                         <v-row>
@@ -92,7 +45,7 @@
 </template>
 
 <script setup lang="ts">
-import { UserCreate } from '@/client/models/UserCreate';
+import { UserInput } from '@/client/models/UserInput';
 import UserService from '@/client/services/UserService';
 import { useForm } from 'vee-validate';
 import { useRouter } from 'vue-router';
@@ -101,6 +54,8 @@ import { useSuccessMessageStore } from '@/store';
 import { useErrorMessageStore } from '@/store/errorMessage';
 import { AxiosError } from 'axios';
 import { useI18n } from 'vue-i18n';
+import InputText from '@/components/TextInput.vue';
+import { User } from '@/client/models/User';
 
 const router = useRouter();
 
@@ -118,30 +73,24 @@ const schema = yup.object({
         .label(t('users.form.labelPasswordConfirmation')),
 });
 
-const { defineField, handleSubmit } = useForm({
+const { handleSubmit } = useForm({
     validationSchema: schema,
-});
-
-const vuetifyConfig = (state: any) => ({
-    props: {
-        'error-messages': state.errors,
+    initialValues: <UserInput>{
+        first_name: '',
+        last_name: '',
+        email: '',
+        password: '',
+        password_confirmation: ''
     },
 });
 
 const successMessageStore = useSuccessMessageStore();
 const errorMessageStore = useErrorMessageStore();
 
-const [firstName, firstNameProps] = defineField('first_name', vuetifyConfig);
-const [lastName, lastNameProps] = defineField('last_name', vuetifyConfig);
-const [email, emailProps] = defineField('email', vuetifyConfig);
-const [password, passwordProps] = defineField('password', vuetifyConfig);
-const [passwordConfirmation, passwordConfirmationProps] = defineField('password_confirmation', vuetifyConfig);
-
 const submit = handleSubmit((values) => {
-    console.log('error');
-    const user = <UserCreate>{ ...values };
+    const user = <UserInput>{ ...values };
     UserService.create(user)
-        .then((response) => {
+        .then((user: User) => {
             successMessageStore.triggerSuccessMessage(t('users.create.successMessage'));
             router.push({ name: 'users' });
         })

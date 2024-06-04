@@ -1,8 +1,8 @@
 import http from './http-common';
 import { User } from '../models/User';
-import { UserCreate } from '../models/UserCreate';
+import { UserInput } from '../models/UserInput';
 import { AxiosError } from 'axios';
-import { UserUpdate } from '../models/UserUpdate';
+import { UserInput } from '../models/UserInput';
 
 export default class {
     public static getAuthUser(): Promise<User> {
@@ -37,7 +37,7 @@ export default class {
         });
     }
 
-    public static create(user: UserCreate): Promise<User> {
+    public static create(user: UserInput): Promise<User> {
         return new Promise((resolve, reject) => {
             http.post('/api/users', user)
                 .then((response) => {
@@ -49,7 +49,7 @@ export default class {
         });
     }
 
-    public static get(id: number) {
+    public static get(id: number): Promise<User> {
         return new Promise((resolve, reject) => {
             http.get('/api/users/'+id)
                 .then((response) => {
@@ -61,7 +61,7 @@ export default class {
         });
     }
 
-    public static update(id: number, user: UserUpdate): Promise<User> {
+    public static update(id: number, user: UserInput): Promise<User> {
         return new Promise((resolve, reject) => {
             http.put('/api/users/'+id, user)
                 .then((response) => {

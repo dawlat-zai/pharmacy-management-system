@@ -7,6 +7,7 @@ use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\UserCollection;
 use App\Http\Resources\UserResource;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -23,6 +24,7 @@ class UserController extends Controller
         $filters = $request->only('search', 'sort_by', 'sort_order');
 
         $users = User::filter($filters)
+            ->with('roles')
             ->paginate($perPage)
             ->withQueryString();
 
@@ -38,6 +40,8 @@ class UserController extends Controller
 
         $user = User::create($input);
 
+        $user->syncRoles($input['roles']);
+
         return response()->json(new UserResource($user), Response::HTTP_CREATED);
     }
 
@@ -46,6 +50,8 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
+        $user->load('roles');
+
         return response()->json(new UserResource($user), Response::HTTP_OK);
     }
 
@@ -57,6 +63,8 @@ class UserController extends Controller
         $input = $request->validated();
 
         $user->update($input);
+
+        $user->syncRoles($input['roles']);
 
         return response()->json(new UserResource($user), Response::HTTP_OK);
     }

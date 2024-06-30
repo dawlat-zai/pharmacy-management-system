@@ -34,6 +34,9 @@
             rounded="0"
             @update:options="loadUsers"
         >
+            <template v-slot:item.role="{ item }">
+                {{ rolesFormatted(item.roles) }}
+            </template>
             <template v-slot:item.action="{ item }">
                 <span>
                     <v-icon @click="editUser(item.id)" class="mr-2">mdi-pencil</v-icon>
@@ -94,6 +97,7 @@ const headers = ref<ReadonlyHeaders>([
     { title: t('users.list.tableHeader.firstname'), key: 'first_name', align: 'start' },
     { title: t('users.list.tableHeader.lastname'), key: 'last_name', align: 'start' },
     { title: t('users.list.tableHeader.email'), key: 'email', align: 'start' },
+    { title: t('users.list.tableHeader.role'), key: 'role', align: 'start' },
     { title: '', key: 'action', align: 'end' },
 ]);
 
@@ -165,4 +169,8 @@ watch(
         ];
     },
 );
+
+const rolesFormatted = (roles) => {
+    return roles.map(role => role.name).join(', ')
+}
 </script>

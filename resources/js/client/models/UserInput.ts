@@ -4,4 +4,5 @@ export type UserInput = {
     email: string;
     password?: string;
     password_confirmation?: string;
+    roles: number[];
 };

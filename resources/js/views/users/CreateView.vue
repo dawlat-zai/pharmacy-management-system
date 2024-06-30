@@ -19,22 +19,37 @@
                         </v-row>
                         <v-row>
                             <v-col cols="12" md="4" class="py-2">
-                                <InputText name="password" type="password" :label="t('users.form.labelPassword')"></InputText>
+                                <InputText
+                                    name="password"
+                                    type="password"
+                                    :label="t('users.form.labelPassword')"
+                                ></InputText>
                             </v-col>
                             <v-col cols="12" md="4" class="py-2">
-                                <InputText name="password_confirmation" type="password" :label="t('users.form.labelPasswordConfirmation')"></InputText>
+                                <InputText
+                                    name="password_confirmation"
+                                    type="password"
+                                    :label="t('users.form.labelPasswordConfirmation')"
+                                ></InputText>
+                            </v-col>
+                        </v-row>
+                        <v-row>
+                            <v-col cols="6" md="4" class="py-2">
+                                <MutliSelect
+                                    name="roles"
+                                    :label="t('users.form.labelRole')"
+                                    :items="roles"
+                                ></MutliSelect>
                             </v-col>
                         </v-row>
                         <v-row>
                             <v-col cols="12" md="4" class="pt-4">
-                                <v-btn type="submit" color="primary" rounded="lg" class="me-4">{{ $t('buttonSave') }}</v-btn>
-                                <v-btn
-                                    @click="router.go(-1)"
-                                    color="primary"
-                                    variant="outlined"
-                                    rounded="lg"
-                                    >{{ $t('buttonCancel') }}</v-btn
-                                >
+                                <v-btn type="submit" color="primary" rounded="lg" class="me-4">{{
+                                    $t('buttonSave')
+                                }}</v-btn>
+                                <v-btn @click="router.go(-1)" color="primary" variant="outlined" rounded="lg">{{
+                                    $t('buttonCancel')
+                                }}</v-btn>
                             </v-col>
                         </v-row>
                     </v-container>
@@ -56,10 +71,17 @@ import { AxiosError } from 'axios';
 import { useI18n } from 'vue-i18n';
 import InputText from '@/components/TextInput.vue';
 import { User } from '@/client/models/User';
+import MutliSelect from '@/components/MutliSelect.vue';
+import { onMounted } from 'vue';
+import { ref } from 'vue';
+import RoleService from '@/client/services/RoleService';
+import { MultiSelect } from '@/types/MultiSelect';
 
 const router = useRouter();
 
 const { t } = useI18n();
+
+const roles = ref<MultiSelect[]>([]);
 
 const schema = yup.object({
     first_name: yup.string().required().label(t('users.form.labelFirstname')),
@@ -71,6 +93,7 @@ const schema = yup.object({
         .required()
         .oneOf([yup.ref('password')], t('users.form.passwordConfirmationCustomValidationMessage'))
         .label(t('users.form.labelPasswordConfirmation')),
+    roles: yup.array().min(1).label(t('users.form.labelRole'))
 });
 
 const { handleSubmit } = useForm({
@@ -80,7 +103,8 @@ const { handleSubmit } = useForm({
         last_name: '',
         email: '',
         password: '',
-        password_confirmation: ''
+        password_confirmation: '',
+        roles: []
     },
 });
 
@@ -98,4 +122,23 @@ const submit = handleSubmit((values) => {
             errorMessageStore.triggerErrorMessage(error);
         });
 });
+
+onMounted(() => {
+    getRoles();
+});
+
+const getRoles = () => {
+    RoleService.getAll()
+        .then((response: any) => {
+            roles.value = response.data.map((role) => {
+                return {
+                    value: role.id,
+                    title: role.name,
+                };
+            });
+        })
+        .catch((error: AxiosError) => {
+            errorMessageStore.triggerErrorMessage(error);
+        });
+}
 </script>

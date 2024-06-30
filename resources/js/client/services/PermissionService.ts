@@ -13,4 +13,15 @@ export default class {
                 });
         });
     }
+
+    public static getUserPermissions(): Promise<Permission[]> {
+        return new Promise((resolve, reject) => {
+            http.get('/api/user/permissions')
+                .then((response) => {
+                    resolve(response.data);
+                }).catch((error) => {
+                    reject(error);
+                });
+        })
+    }
 }

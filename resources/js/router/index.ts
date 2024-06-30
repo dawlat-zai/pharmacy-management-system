@@ -1,4 +1,5 @@
 import { useAuthStore } from '@/store';
+import { usePermissionStore } from '@/store/permission';
 import { RouteLocationNormalized, createRouter, createWebHistory } from 'vue-router';
 
 const AuthGuard = async (to: RouteLocationNormalized, from: RouteLocationNormalized, next: Function) => {
@@ -8,8 +9,19 @@ const AuthGuard = async (to: RouteLocationNormalized, from: RouteLocationNormali
         if (authStore.me === null) {
             await authStore.getUserMe();
         }
-        // forward the user to the requested route
-        next();
+
+        const permissionStore = usePermissionStore();
+
+        // Fetch permissions if not already fetched
+        if (!permissionStore.permissions.length) {
+            await permissionStore.fetchPermissions();
+        }
+
+        if (to.meta.requiresPermission && !permissionStore.hasPermission(to.meta.requiresPermission as string)) {
+            next('/unauthorized'); // Redirect to unauthorized page
+        } else {
+            next(); // forward the user to the requested route
+        }
     } else {
         next({ name: 'login' });
     }
@@ -37,6 +49,7 @@ const routes = [
         beforeEnter: AuthGuard,
         meta: {
             layout: 'AppLayoutAdmin',
+            requiresPermission: 'read users',
         },
     },
     {
@@ -46,6 +59,7 @@ const routes = [
         beforeEnter: AuthGuard,
         meta: {
             layout: 'AppLayoutAdmin',
+            requiresPermission: 'create users',
         },
     },
     {
@@ -55,6 +69,7 @@ const routes = [
         beforeEnter: AuthGuard,
         meta: {
             layout: 'AppLayoutAdmin',
+            requiresPermission: 'update users',
         },
     },
     {
@@ -64,6 +79,7 @@ const routes = [
         beforeEnter: AuthGuard,
         meta: {
             layout: 'AppLayoutAdmin',
+            requiresPermission: 'read roles',
         },
     },
     {
@@ -73,6 +89,7 @@ const routes = [
         beforeEnter: AuthGuard,
         meta: {
             layout: 'AppLayoutAdmin',
+            requiresPermission: 'update roles',
         },
     },
     {
@@ -82,6 +99,16 @@ const routes = [
         beforeEnter: AuthGuard,
         meta: {
             layout: 'AppLayoutAdmin',
+            requiresPermission: 'edit roles',
+        },
+    },
+    {
+        path: '/unauthorized',
+        name: 'unauthorized',
+        component: () => import('@/views/UnauthorizedView.vue'),
+        meta: {
+            layout: 'AppLayoutAdmin',
+            requiresPermission: 'edit roles',
         },
     },
 ];

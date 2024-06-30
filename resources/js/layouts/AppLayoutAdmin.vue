@@ -20,6 +20,7 @@
                         :to="{ name: 'dashboard' }"
                     ></v-list-item>
                     <v-list-item
+                        v-if="permissionStore.hasPermission('read users')"
                         prepend-icon="mdi-account-group-outline"
                         :title="t('sidebarMenu.users')"
                         value="users"
@@ -27,6 +28,7 @@
                         :to="{ name: 'users' }"
                     ></v-list-item>
                     <v-list-item
+                        v-if="permissionStore.hasPermission('read roles')"
                         prepend-icon="mdi-account-group-outline"
                         :title="t('sidebarMenu.roles')"
                         value="roles"
@@ -57,10 +59,10 @@
 <script setup lang="ts">
 import { useAuthStore, useSuccessMessageStore } from '@/store';
 import { useRoute } from 'vue-router';
-import LocaleSwitcher from '@/components/LocaleSwitcher.vue';
 import SuccessMessage from '@/components/SuccessMessage.vue';
 import ErrorMessage from '@/components/ErrorMessage.vue';
-import { useI18n } from "vue-i18n";
+import { useI18n } from 'vue-i18n';
+import { usePermissionStore } from '@/store/permission';
 
 const authStore = useAuthStore();
 
@@ -68,5 +70,5 @@ const route = useRoute();
 
 const { t } = useI18n();
 
-const successMessageStore = useSuccessMessageStore();
+const permissionStore = usePermissionStore();
 </script>

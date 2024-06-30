@@ -83,4 +83,11 @@ class UserController extends Controller
     {
         return response()->json($request->user(), Response::HTTP_OK);
     }
+
+    public function getPermissions()
+    {
+        $permissions = auth()->user()->getAllPermissions();
+
+        return response()->json($permissions, Response::HTTP_OK);
+    }
 }

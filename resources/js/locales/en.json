@@ -75,5 +75,10 @@
         "required": "This field is required",
         "email": "This must be a valid email",
         "min": "This field must be at least {min} characters"
+    },
+    "unauthorized": {
+        "title": "401 - Unauthorized",
+        "message": "You do not have permission to view this page.",
+        "buttonGoHome": "Go to Home"
     }
 }

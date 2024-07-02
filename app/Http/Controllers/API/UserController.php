@@ -19,6 +19,8 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
+        $this->authorize('read users');
+
         $perPage = $request->get('per_page') ?? getDefaultPaginationNumber();
         
         $filters = $request->only('search', 'sort_by', 'sort_order');
@@ -36,6 +38,8 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
+        $this->authorize('create users');
+
         $input = $request->validated();
 
         $user = User::create($input);
@@ -50,6 +54,8 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
+        $this->authorize('read users');
+
         $user->load('roles');
 
         return response()->json(new UserResource($user), Response::HTTP_OK);
@@ -60,6 +66,8 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user)
     {
+        $this->authorize('update users');
+
         $input = $request->validated();
 
         $user->update($input);
@@ -74,6 +82,8 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
+        $this->authorize('delete users');
+
         $user->delete();
 
         return response()->json(['success' => true], Response::HTTP_OK);

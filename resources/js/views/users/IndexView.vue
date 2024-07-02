@@ -16,7 +16,7 @@
             ></v-text-field>
 
             <template #append>
-                <v-btn :to="{ name: 'users_create' }" color="primary" rounded="lg">{{
+                <v-btn v-if="permissionStore.hasPermission('create users')" :to="{ name: 'users_create' }" color="primary" rounded="lg">{{
                     $t('users.list.btnCreateUser')
                 }}</v-btn>
             </template>
@@ -38,11 +38,11 @@
                 {{ rolesFormatted(item.roles) }}
             </template>
             <template v-slot:item.action="{ item }">
-                <span>
+                <span v-if="permissionStore.hasPermission('update users')">
                     <v-icon @click="editUser(item.id)" class="mr-2">mdi-pencil</v-icon>
                     <v-tooltip activator="parent" location="bottom">{{ $t('users.list.tooltipEditUser') }}</v-tooltip>
                 </span>
-                <span>
+                <span v-if="permissionStore.hasPermission('delete users')">
                     <v-icon @click="openDeleteDialog(item)">mdi-delete</v-icon>
                     <v-tooltip activator="parent" location="bottom">{{ $t('users.list.tooltipDeleteUser') }}</v-tooltip>
                 </span>
@@ -70,6 +70,9 @@ import { ref } from 'vue';
 import { VDataTable } from 'vuetify/lib/components/index.mjs';
 import ConfirmationDialog from '@/components/ConfirmationDialog.vue';
 import { useI18n } from 'vue-i18n';
+import { usePermissionStore } from '@/store/permission';
+
+const permissionStore = usePermissionStore();
 
 const users = ref<User[]>();
 

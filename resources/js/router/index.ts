@@ -89,7 +89,7 @@ const routes = [
         beforeEnter: AuthGuard,
         meta: {
             layout: 'AppLayoutAdmin',
-            requiresPermission: 'update roles',
+            requiresPermission: 'create roles',
         },
     },
     {
@@ -99,7 +99,37 @@ const routes = [
         beforeEnter: AuthGuard,
         meta: {
             layout: 'AppLayoutAdmin',
-            requiresPermission: 'edit roles',
+            requiresPermission: 'update roles',
+        },
+    },
+    {
+        path: '/categories',
+        name: 'categories',
+        component: () => import('@/views/categories/IndexView.vue'),
+        beforeEnter: AuthGuard,
+        meta: {
+            layout: 'AppLayoutAdmin',
+            requiresPermission: 'read categories',
+        },
+    },
+    {
+        path: '/categories/create',
+        name: 'categories_create',
+        component: () => import('@/views/categories/CreateView.vue'),
+        beforeEnter: AuthGuard,
+        meta: {
+            layout: 'AppLayoutAdmin',
+            requiresPermission: 'create categories',
+        },
+    },
+    {
+        path: '/categories/:id/edit',
+        name: 'categories_edit',
+        component: () => import('@/views/categories/EditView.vue'),
+        beforeEnter: AuthGuard,
+        meta: {
+            layout: 'AppLayoutAdmin',
+            requiresPermission: 'update categories',
         },
     },
     {
@@ -108,9 +138,8 @@ const routes = [
         component: () => import('@/views/UnauthorizedView.vue'),
         meta: {
             layout: 'AppLayoutAdmin',
-            requiresPermission: 'edit roles',
         },
-    },
+    }
 ];
 
 const router = createRouter({

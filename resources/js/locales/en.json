@@ -3,7 +3,8 @@
     "sidebarMenu": {
         "dashboard": "Dashboard",
         "users": "Users",
-        "roles": "Roles"
+        "roles": "Roles",
+        "categories": "Categories"
     },
     "localeSwitcher": {
         "labelSelectLanguage": "Select Language"
@@ -69,6 +70,35 @@
         },
         "form": {
             "labelRoleName": "Role Name"
+        }
+    },
+    "categories": {
+        "list": {
+            "title": "Categories",
+            "placeholderSearchCategory": "Search category",
+            "btnCreateCategory": "Create Category",
+            "tableHeader": {
+                "name": "Name",
+                "description": "Description",
+                "createdAt": "Created at",
+                "updatedAt": "Updated at"
+            },
+            "tooltipEditCategory": "Edit Category",
+            "tooltipDeleteCategory": "Delete Category",
+            "deleteConfirmationTitle": "Confirm Delete",
+            "deleteConfirmationMessage": "Are you sure you want to delete this category?"
+        },
+        "create": {
+            "title": "Create Category",
+            "successMessage": "Category created successfully"
+        },
+        "edit": {
+            "title": "Edit Category",
+            "successMessage": "Category edited successfully"
+        },
+        "form": {
+            "labelCategoryName": "Category Name",
+            "labelCategoryDescription": "Category Description"
         }
     },
     "validation": {

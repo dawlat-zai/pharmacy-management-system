@@ -35,6 +35,14 @@
                         :active="(route.name as string).startsWith('roles')"
                         :to="{ name: 'roles' }"
                     ></v-list-item>
+                    <v-list-item
+                        v-if="permissionStore.hasPermission('read categories')"
+                        prepend-icon="mdi-account-group-outline"
+                        :title="t('sidebarMenu.categories')"
+                        value="categories"
+                        :active="(route.name as string).startsWith('categories')"
+                        :to="{ name: 'categories' }"
+                    ></v-list-item>
                 </v-list>
 
                 <template v-slot:append>

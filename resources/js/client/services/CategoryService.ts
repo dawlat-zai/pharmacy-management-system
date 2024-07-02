@@ -1,24 +1,12 @@
 import http from './http-common';
-import { User } from '../models/User';
-import { UserInput } from '../models/UserInput';
+import { Category } from '../models/Category';
+import { CategoryInput } from '../models/CategoryInput';
 import { AxiosError } from 'axios';
 
 export default class {
-    public static getAuthUser(): Promise<User> {
-        return new Promise((resolve, reject) => {
-            http.get('/api/me')
-                .then((response) => {
-                    resolve(response.data);
-                })
-                .catch((error) => {
-                    reject(error);
-                });
-        });
-    }
-
     public static getAll(search?: string, per_page?: number, page?: number, sortBy?: string, sortOrder?: string) {
         return new Promise((resolve, reject) => {
-            http.get('/api/users', {
+            http.get('/api/categories', {
                 params: {
                     search: search,
                     per_page: per_page,
@@ -36,9 +24,9 @@ export default class {
         });
     }
 
-    public static create(user: UserInput): Promise<User> {
+    public static create(category: CategoryInput): Promise<Category> {
         return new Promise((resolve, reject) => {
-            http.post('/api/users', user)
+            http.post('/api/categories', category)
                 .then((response) => {
                     resolve(response.data);
                 })
@@ -48,9 +36,9 @@ export default class {
         });
     }
 
-    public static get(id: number): Promise<User> {
+    public static get(id: number): Promise<Category> {
         return new Promise((resolve, reject) => {
-            http.get('/api/users/'+id)
+            http.get('/api/categories/'+id)
                 .then((response) => {
                     resolve(response.data);
                 })
@@ -60,9 +48,9 @@ export default class {
         });
     }
 
-    public static update(id: number, user: UserInput): Promise<User> {
+    public static update(id: number, category: CategoryInput): Promise<Category> {
         return new Promise((resolve, reject) => {
-            http.put('/api/users/'+id, user)
+            http.put('/api/categories/'+id, category)
                 .then((response) => {
                     resolve(response.data);
                 })
@@ -72,9 +60,9 @@ export default class {
         });
     }
 
-    public static delete(id: number): Promise<User> {
+    public static delete(id: number): Promise<Category> {
         return new Promise((resolve, reject) => {
-            http.delete('/api/users/'+id)
+            http.delete('/api/categories/'+id)
                 .then((response) => {
                     resolve(response.data);
                 })

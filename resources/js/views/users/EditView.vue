@@ -67,7 +67,7 @@ import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { User } from '@/client/models/User';
 import InputText from '@/components/TextInput.vue';
-import { MultiSelect } from '@/types/MultiSelect';
+import { Select } from '@/types/Select';
 import MutliSelect from '@/components/MutliSelect.vue';
 import RoleService from '@/client/services/RoleService';
 
@@ -75,7 +75,7 @@ const router = useRouter();
 
 const { t } = useI18n();
 
-const roles = ref<MultiSelect[]>([]);
+const roles = ref<Select[]>([]);
 
 const schema = yup.object({
     first_name: yup.string().required().label('First Name'),

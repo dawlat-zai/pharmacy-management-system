@@ -1,7 +1,7 @@
 <template>
     <v-locale-provider>
         <v-layout class="bg-grey-lighten-3">
-            <v-navigation-drawer class="bg-primary">
+            <v-navigation-drawer class="bg-primary" permanent>
                 <v-list>
                     <v-list-item
                         prepend-avatar="https://randomuser.me/api/portraits/men/85.jpg"
@@ -42,6 +42,14 @@
                         value="categories"
                         :active="(route.name as string).startsWith('categories')"
                         :to="{ name: 'categories' }"
+                    ></v-list-item>
+                    <v-list-item
+                        v-if="permissionStore.hasPermission('read products')"
+                        prepend-icon="mdi-account-group-outline"
+                        :title="t('sidebarMenu.products')"
+                        value="products"
+                        :active="(route.name as string).startsWith('products')"
+                        :to="{ name: 'products' }"
                     ></v-list-item>
                 </v-list>
 

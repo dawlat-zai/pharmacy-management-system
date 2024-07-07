@@ -71,17 +71,16 @@ import { AxiosError } from 'axios';
 import { useI18n } from 'vue-i18n';
 import InputText from '@/components/TextInput.vue';
 import { User } from '@/client/models/User';
-import MutliSelect from '@/components/MutliSelect.vue';
 import { onMounted } from 'vue';
 import { ref } from 'vue';
 import RoleService from '@/client/services/RoleService';
-import { MultiSelect } from '@/types/MultiSelect';
+import { Select } from '@/types/Select';
 
 const router = useRouter();
 
 const { t } = useI18n();
 
-const roles = ref<MultiSelect[]>([]);
+const roles = ref<Select[]>([]);
 
 const schema = yup.object({
     first_name: yup.string().required().label(t('users.form.labelFirstname')),

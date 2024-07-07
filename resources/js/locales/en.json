@@ -4,7 +4,8 @@
         "dashboard": "Dashboard",
         "users": "Users",
         "roles": "Roles",
-        "categories": "Categories"
+        "categories": "Categories",
+        "products": "Products"
     },
     "localeSwitcher": {
         "labelSelectLanguage": "Select Language"
@@ -99,6 +100,49 @@
         "form": {
             "labelCategoryName": "Category Name",
             "labelCategoryDescription": "Category Description"
+        }
+    },
+    "products": {
+        "list": {
+            "title": "Products",
+            "placeholderSearchProduct": "Search product",
+            "btnCreateProduct": "Create Product",
+            "tableHeader": {
+                "name": "Name",
+                "description": "Description",
+                "category": "Category",
+                "product_type": "Product Type",
+                "manufacture_date": "Manufacture Date",
+                "expiry_date": "Expiry Date",
+                "purchase_price": "Purchase Price",
+                "sale_price": "Sale Price",
+                "quantity": "Quantity",
+                "createdAt": "Created at",
+                "updatedAt": "Updated at"
+            },
+            "tooltipEditProduct": "Edit Product",
+            "tooltipDeleteProduct": "Delete Product",
+            "deleteConfirmationTitle": "Confirm Delete",
+            "deleteConfirmationMessage": "Are you sure you want to delete this product?"
+        },
+        "create": {
+            "title": "Create Product",
+            "successMessage": "Product created successfully"
+        },
+        "edit": {
+            "title": "Edit Product",
+            "successMessage": "Product edited successfully"
+        },
+        "form": {
+            "labelProductName": "Product Name",
+            "labelCategory": "Category",
+            "labelProductType": "Product Type",
+            "labelDescription": "Description",
+            "labelManufactureDate": "Manufacture Date",
+            "labelExpiryDate": "Expiry Date",
+            "labelPurchasePrice": "Purchase Price",
+            "labelSalePrice": "Sale Price",
+            "labelQuantity": "Quantity"
         }
     },
     "validation": {

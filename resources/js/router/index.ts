@@ -133,6 +133,36 @@ const routes = [
         },
     },
     {
+        path: '/products',
+        name: 'products',
+        component: () => import('@/views/products/IndexView.vue'),
+        beforeEnter: AuthGuard,
+        meta: {
+            layout: 'AppLayoutAdmin',
+            requiresPermission: 'read products',
+        },
+    },
+    {
+        path: '/products/create',
+        name: 'products_create',
+        component: () => import('@/views/products/CreateView.vue'),
+        beforeEnter: AuthGuard,
+        meta: {
+            layout: 'AppLayoutAdmin',
+            requiresPermission: 'create products',
+        },
+    },
+    {
+        path: '/products/:id/edit',
+        name: 'products_edit',
+        component: () => import('@/views/products/EditView.vue'),
+        beforeEnter: AuthGuard,
+        meta: {
+            layout: 'AppLayoutAdmin',
+            requiresPermission: 'update products',
+        },
+    },
+    {
         path: '/unauthorized',
         name: 'unauthorized',
         component: () => import('@/views/UnauthorizedView.vue'),

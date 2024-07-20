@@ -8,27 +8,39 @@
 
                 <v-spacer></v-spacer>
 
-                <v-menu transition="slide-y-transition">
-                    <template v-slot:activator="{ props }">
-                        <v-avatar class="mr-4" v-bind="props">
-                            <v-img alt="John" src="https://cdn.vuetifyjs.com/images/john.jpg"></v-img>
-                        </v-avatar>
-                    </template>
-                    <v-list>
-                        <v-list-item>
-                            <v-list-item-title
-                                ><v-btn color="primary" variant="plain">My Profile</v-btn></v-list-item-title
-                            >
-                        </v-list-item>
-                        <v-list-item>
-                            <v-list-item-title
-                                ><v-btn color="primary" variant="plain" @click="authStore.logout()"
-                                    >Logout</v-btn
-                                ></v-list-item-title
-                            >
-                        </v-list-item>
-                    </v-list>
-                </v-menu>
+                <div class="px-2">
+                    <LocaleSwitcher></LocaleSwitcher>
+                    <v-menu transition="slide-y-transition">
+                        <template v-slot:activator="{ props }">
+                            <v-avatar v-bind="props">
+                                <v-img
+                                    alt="John"
+                                    src="https://cdn.vuetifyjs.com/images/john.jpg"
+                                    class="cursor-pointer"
+                                ></v-img>
+                            </v-avatar>
+                        </template>
+                        <v-card class="mx-auto" max-width="300">
+                            <v-list density="compact">
+                                <v-list-item>
+                                    <v-list-item-title>
+                                        <v-btn color="primary" variant="plain" class="font-weight-regular px-0">My Profile</v-btn>
+                                    </v-list-item-title>
+                                </v-list-item>
+                                <v-list-item>
+                                    <v-list-item-title>
+                                        <v-btn
+                                            color="primary"
+                                            variant="plain"
+                                            class="font-weight-regular px-0"
+                                            @click="authStore.logout()">Logout</v-btn>
+                                        </v-list-item-title
+                                    >
+                                </v-list-item>
+                            </v-list>
+                        </v-card>
+                    </v-menu>
+                </div>
             </v-app-bar>
 
             <v-navigation-drawer class="bg-blue-darken-4" :rail="rail">
@@ -87,10 +99,11 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { useAuthStore, useSuccessMessageStore } from '@/store';
+import { useAuthStore } from '@/store';
 import { useRoute } from 'vue-router';
 import SuccessMessage from '@/components/SuccessMessage.vue';
 import ErrorMessage from '@/components/ErrorMessage.vue';
+import LocaleSwitcher from '@/components/LocaleSwitcher.vue';
 import { useI18n } from 'vue-i18n';
 import { usePermissionStore } from '@/store/permission';
 

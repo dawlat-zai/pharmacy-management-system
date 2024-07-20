@@ -1,0 +1,158 @@
+{
+    "welcome": "مرحبًا بك في نظام إدارة الصيدلية",
+    "sidebarMenu": {
+        "dashboard": "لوحة التحكم",
+        "users": "المستخدمين",
+        "roles": "الأدوار",
+        "categories": "الفئات",
+        "products": "المنتجات"
+    },
+    "localeSwitcher": {
+        "labelSelectLanguage": "اختر اللغة"
+    },
+    "buttonSave": "حفظ",
+    "buttonCancel": "إلغاء",
+    "users": {
+        "list": {
+            "title": "المستخدمين",
+            "placeholderSearchUsers": "ابحث عن المستخدمين",
+            "btnCreateUser": "إنشاء مستخدم",
+            "tableHeader": {
+                "firstname": "الاسم الأول",
+                "lastname": "الاسم الأخير",
+                "email": "البريد الإلكتروني",
+                "role": "الدور"
+            },
+            "tooltipEditUser": "تعديل المستخدم",
+            "tooltipDeleteUser": "حذف المستخدم",
+            "deleteConfirmationTitle": "تأكيد الحذف",
+            "deleteConfirmationMessage": "هل أنت متأكد أنك تريد حذف هذا المستخدم؟"
+        },
+        "create": {
+            "title": "إنشاء مستخدم",
+            "successMessage": "تم إنشاء المستخدم بنجاح"
+        },
+        "edit": {
+            "title": "تعديل المستخدم",
+            "successMessage": "تم تعديل المستخدم بنجاح"
+        },
+        "form": {
+            "labelFirstname": "الاسم الأول",
+            "labelLastname": "الاسم الأخير",
+            "labelEmail": "البريد الإلكتروني",
+            "labelPassword": "كلمة المرور",
+            "labelPasswordConfirmation": "تأكيد كلمة المرور",
+            "passwordConfirmationCustomValidationMessage": "يجب أن تتطابق كلمات المرور.",
+            "labelRole": "الدور"
+        }
+    },
+    "roles": {
+        "list": {
+            "title": "الأدوار",
+            "placeholderSearchRoles": "ابحث عن الدور",
+            "btnCreateRole": "إنشاء دور",
+            "tableHeader": {
+                "name": "الاسم",
+                "createdAt": "تاريخ الإنشاء",
+                "updatedAt": "تاريخ التحديث"
+            },
+            "tooltipEditRole": "تعديل الدور",
+            "tooltipDeleteRole": "حذف الدور",
+            "deleteConfirmationTitle": "تأكيد الحذف",
+            "deleteConfirmationMessage": "هل أنت متأكد أنك تريد حذف هذا الدور؟"
+        },
+        "create": {
+            "title": "إنشاء دور",
+            "successMessage": "تم إنشاء الدور بنجاح"
+        },
+        "edit": {
+            "title": "تعديل الدور",
+            "successMessage": "تم تعديل الدور بنجاح"
+        },
+        "form": {
+            "labelRoleName": "اسم الدور"
+        }
+    },
+    "categories": {
+        "list": {
+            "title": "الفئات",
+            "placeholderSearchCategory": "ابحث عن الفئة",
+            "btnCreateCategory": "إنشاء فئة",
+            "tableHeader": {
+                "name": "الاسم",
+                "description": "الوصف",
+                "createdAt": "تاريخ الإنشاء",
+                "updatedAt": "تاريخ التحديث"
+            },
+            "tooltipEditCategory": "تعديل الفئة",
+            "tooltipDeleteCategory": "حذف الفئة",
+            "deleteConfirmationTitle": "تأكيد الحذف",
+            "deleteConfirmationMessage": "هل أنت متأكد أنك تريد حذف هذه الفئة؟"
+        },
+        "create": {
+            "title": "إنشاء فئة",
+            "successMessage": "تم إنشاء الفئة بنجاح"
+        },
+        "edit": {
+            "title": "تعديل الفئة",
+            "successMessage": "تم تعديل الفئة بنجاح"
+        },
+        "form": {
+            "labelCategoryName": "اسم الفئة",
+            "labelCategoryDescription": "وصف الفئة"
+        }
+    },
+    "products": {
+        "list": {
+            "title": "المنتجات",
+            "placeholderSearchProduct": "ابحث عن المنتج",
+            "btnCreateProduct": "إنشاء منتج",
+            "tableHeader": {
+                "name": "الاسم",
+                "description": "الوصف",
+                "category": "الفئة",
+                "product_type": "نوع المنتج",
+                "manufacture_date": "تاريخ الصنع",
+                "expiry_date": "تاريخ الانتهاء",
+                "purchase_price": "سعر الشراء",
+                "sale_price": "سعر البيع",
+                "quantity": "الكمية",
+                "createdAt": "تاريخ الإنشاء",
+                "updatedAt": "تاريخ التحديث"
+            },
+            "tooltipEditProduct": "تعديل المنتج",
+            "tooltipDeleteProduct": "حذف المنتج",
+            "deleteConfirmationTitle": "تأكيد الحذف",
+            "deleteConfirmationMessage": "هل أنت متأكد أنك تريد حذف هذا المنتج؟"
+        },
+        "create": {
+            "title": "إنشاء منتج",
+            "successMessage": "تم إنشاء المنتج بنجاح"
+        },
+        "edit": {
+            "title": "تعديل المنتج",
+            "successMessage": "تم تعديل المنتج بنجاح"
+        },
+        "form": {
+            "labelProductName": "اسم المنتج",
+            "labelCategory": "الفئة",
+            "labelProductType": "نوع المنتج",
+            "labelDescription": "الوصف",
+            "labelManufactureDate": "تاريخ الصنع",
+            "labelExpiryDate": "تاريخ الانتهاء",
+            "labelPurchasePrice": "سعر الشراء",
+            "labelSalePrice": "سعر البيع",
+            "labelQuantity": "الكمية"
+        }
+    },
+    "validation": {
+        "required": "هذا الحقل مطلوب",
+        "email": "يجب أن يكون بريدًا إلكترونيًا صالحًا",
+        "min": "يجب أن يكون هذا الحقل على الأقل {min} حرفًا"
+    },
+    "unauthorized": {
+        "title": "401 - غير مصرح",
+        "message": "ليس لديك إذن لعرض هذه الصفحة.",
+        "buttonGoHome": "العودة إلى الصفحة الرئيسية"
+    }
+}

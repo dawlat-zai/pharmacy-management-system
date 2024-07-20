@@ -3,13 +3,15 @@ import * as components from 'vuetify/components';
 import * as directives from 'vuetify/directives';
 
 import { en } from 'vuetify/locale';
-import { ps } from '@/locales/vuetify/ps';
+import { ar } from '@/locales/vuetify/ar';
 
 import { defaultLocale, fallbackLocale } from '@/locales';
 
 import '@mdi/font/css/materialdesignicons.css';
 
 import "~/assets/scss/main.scss";
+import "/node_modules/flag-icons/css/flag-icons.min.css";
+
 import Cookies from 'js-cookie';
 
 const locale = Cookies.get('locale') || defaultLocale;
@@ -51,9 +53,9 @@ export default createVuetify({
   locale: {
     locale: locale,
     fallback: fallbackLocale,
-    messages: { en, ps },
+    messages: { en, ar },
     rtl: {
-      ps: true,
+      ar: true,
     },
   },
   components,

@@ -1,51 +1,70 @@
 <template>
-    <v-card rounded="lg">
-        <v-card-title>{{ $t('categories.list.title') }}</v-card-title>
-        <v-card-item class="mb-4">
-            <v-text-field
-                v-model="searchKeyword"
-                :placeholder="t('categories.list.placeholderSearchCategory')"
-                hide-details
-                variant="outlined"
-                density="compact"
-                prepend-inner-icon="mdi-magnify"
-                single-line
-                color="primary"
-                rounded="lg"
-                style="inline-size: 15rem"
-            ></v-text-field>
-
-            <template #append>
-                <v-btn v-if="permissionStore.hasPermission('create categories')" :to="{ name: 'categories_create' }" color="primary" rounded="lg">{{
-                    $t('categories.list.btnCreateCategory')
-                }}</v-btn>
+    <v-container fluid class="px-8">
+        <v-breadcrumbs :items="breadcrumbItems">
+            <template v-slot:divider>
+                <v-icon icon="mdi-chevron-right"></v-icon>
             </template>
-        </v-card-item>
+        </v-breadcrumbs>
+        <v-card rounded="lg">
+            <v-card-title class="px-8 py-4">{{ $t('categories.list.title') }}</v-card-title>
+            <v-divider></v-divider>
+            <v-card-item class="px-8 py-4">
+                <v-text-field
+                    v-model="searchKeyword"
+                    :placeholder="t('categories.list.placeholderSearchCategory')"
+                    hide-details
+                    variant="outlined"
+                    density="compact"
+                    prepend-inner-icon="mdi-magnify"
+                    single-line
+                    color="primary"
+                    rounded="lg"
+                    style="inline-size: 15rem"
+                ></v-text-field>
 
-        <v-data-table-server
-            v-model:items-per-page="categoriesPerPage"
-            :headers="headers"
-            :items="categories"
-            :items-length="totalCategories"
-            :loading="loading"
-            :search="search"
-            item-value="id"
-            hover
-            rounded="0"
-            @update:options="loadCategories"
-        >
-            <template v-slot:item.action="{ item }">
-                <span v-if="permissionStore.hasPermission('update categories')">
-                    <v-icon @click="editCategory(item.id)" class="mr-2">mdi-pencil</v-icon>
-                    <v-tooltip activator="parent" location="bottom">{{ $t('categories.list.tooltipEditCategory') }}</v-tooltip>
-                </span>
-                <span>
-                    <v-icon @click="openDeleteDialog(item)">mdi-delete</v-icon>
-                    <v-tooltip activator="parent" location="bottom">{{ $t('categories.list.tooltipDeleteCategory') }}</v-tooltip>
-                </span>
-            </template>
-        </v-data-table-server>
-    </v-card>
+                <template #append>
+                    <v-btn
+                        v-if="permissionStore.hasPermission('create categories')"
+                        :to="{ name: 'categories_create' }"
+                        color="primary"
+                        flat
+                        rounded="lg"
+                        >{{ $t('categories.list.btnCreateCategory') }}</v-btn
+                    >
+                </template>
+            </v-card-item>
+
+            <v-data-table-server
+                v-model:items-per-page="categoriesPerPage"
+                :headers="headers"
+                :items="categories"
+                :items-length="totalCategories"
+                :loading="loading"
+                :search="search"
+                item-value="id"
+                hover
+                rounded="0"
+                class="px-8 pt-0 pb-4 table-max-height"
+                fixed-header
+                @update:options="loadCategories"
+            >
+                <template v-slot:item.action="{ item }">
+                    <span v-if="permissionStore.hasPermission('update categories')">
+                        <v-icon @click="editCategory(item.id)" class="mr-2">mdi-pencil</v-icon>
+                        <v-tooltip activator="parent" location="bottom">{{
+                            $t('categories.list.tooltipEditCategory')
+                        }}</v-tooltip>
+                    </span>
+                    <span>
+                        <v-icon @click="openDeleteDialog(item)">mdi-delete</v-icon>
+                        <v-tooltip activator="parent" location="bottom">{{
+                            $t('categories.list.tooltipDeleteCategory')
+                        }}</v-tooltip>
+                    </span>
+                </template>
+            </v-data-table-server>
+        </v-card>
+    </v-container>
 
     <ConfirmationDialog
         v-model="dialogVisible"
@@ -168,7 +187,14 @@ watch(
             { title: t('categories.list.tableHeader.createdAt'), key: 'created_at', align: 'start' },
             { title: t('categories.list.tableHeader.updatedAt'), key: 'updated_at', align: 'start' },
             { title: '', key: 'action', align: 'end' },
-        ]
+        ];
     },
 );
+
+const breadcrumbItems = ref([
+    {
+        title: 'Categories',
+        disabled: true,
+    },
+]);
 </script>

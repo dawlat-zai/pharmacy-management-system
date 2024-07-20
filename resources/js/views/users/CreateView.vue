@@ -1,62 +1,81 @@
 <template>
-    <v-row>
-        <v-col cols="12" md="8">
-            <v-card :title="t('users.create.title')" rounded="lg">
-                <v-form @submit.prevent="submit">
-                    <v-container>
-                        <v-row>
-                            <v-col cols="12" md="4" class="pb-2 pt-0">
-                                <InputText name="first_name" :label="t('users.form.labelFirstname')"></InputText>
-                            </v-col>
-                            <v-col cols="12" md="4" class="pb-2 pt-0">
-                                <InputText name="last_name" :label="t('users.form.labelLastname')"></InputText>
-                            </v-col>
-                        </v-row>
-                        <v-row>
-                            <v-col cols="12" md="4" class="py-2">
-                                <InputText name="email" type="email" :label="t('users.form.labelEmail')"></InputText>
-                            </v-col>
-                        </v-row>
-                        <v-row>
-                            <v-col cols="12" md="4" class="py-2">
-                                <InputText
-                                    name="password"
-                                    type="password"
-                                    :label="t('users.form.labelPassword')"
-                                ></InputText>
-                            </v-col>
-                            <v-col cols="12" md="4" class="py-2">
-                                <InputText
-                                    name="password_confirmation"
-                                    type="password"
-                                    :label="t('users.form.labelPasswordConfirmation')"
-                                ></InputText>
-                            </v-col>
-                        </v-row>
-                        <v-row>
-                            <v-col cols="6" md="4" class="py-2">
-                                <MutliSelect
-                                    name="roles"
-                                    :label="t('users.form.labelRole')"
-                                    :items="roles"
-                                ></MutliSelect>
-                            </v-col>
-                        </v-row>
-                        <v-row>
-                            <v-col cols="12" md="4" class="pt-4">
-                                <v-btn type="submit" color="primary" rounded="lg" class="me-4">{{
-                                    $t('buttonSave')
-                                }}</v-btn>
-                                <v-btn @click="router.go(-1)" color="primary" variant="outlined" rounded="lg">{{
-                                    $t('buttonCancel')
-                                }}</v-btn>
-                            </v-col>
-                        </v-row>
-                    </v-container>
-                </v-form>
-            </v-card>
-        </v-col>
-    </v-row>
+    <v-container fluid class="px-8">
+        <v-breadcrumbs :items="breadcrumbItems">
+            <template v-slot:divider>
+                <v-icon icon="mdi-chevron-right"></v-icon>
+            </template>
+        </v-breadcrumbs>
+        <v-row>
+            <v-col cols="12" md="8">
+                <v-card rounded="lg">
+                    <v-card-title class="px-8 py-4">{{ $t('users.create.title') }}</v-card-title>
+                    <v-divider></v-divider>
+                    <v-form @submit.prevent="submit">
+                        <v-container class="pa-8">
+                            <v-row>
+                                <v-col cols="12" md="6" class="pb-2 pt-0">
+                                    <CustomInputText
+                                        name="first_name"
+                                        :label="t('users.form.labelFirstname')"
+                                    ></CustomInputText>
+                                </v-col>
+                                <v-col cols="12" md="6" class="pb-2 pt-0">
+                                    <CustomInputText
+                                        name="last_name"
+                                        :label="t('users.form.labelLastname')"
+                                    ></CustomInputText>
+                                </v-col>
+                            </v-row>
+                            <v-row>
+                                <v-col cols="12" md="6" class="py-2">
+                                    <CustomInputText
+                                        name="email"
+                                        type="email"
+                                        :label="t('users.form.labelEmail')"
+                                    ></CustomInputText>
+                                </v-col>
+                            </v-row>
+                            <v-row>
+                                <v-col cols="12" md="6" class="py-2">
+                                    <CustomInputText
+                                        name="password"
+                                        type="password"
+                                        :label="t('users.form.labelPassword')"
+                                    ></CustomInputText>
+                                </v-col>
+                                <v-col cols="12" md="6" class="py-2">
+                                    <CustomInputText
+                                        name="password_confirmation"
+                                        type="password"
+                                        :label="t('users.form.labelPasswordConfirmation')"
+                                    ></CustomInputText>
+                                </v-col>
+                            </v-row>
+                            <v-row>
+                                <v-col cols="6" md="6" class="py-2">
+                                    <CustomMultiSelect
+                                        name="roles"
+                                        :label="t('users.form.labelRole')"
+                                        :items="roles"
+                                    ></CustomMultiSelect>
+                                </v-col>
+                            </v-row>
+                            <v-row>
+                                <v-col cols="12" md="6" class="pt-4">
+                                    <v-btn type="submit" color="primary" flat rounded="lg" class="me-4">{{
+                                        $t('buttonSave')
+                                    }}</v-btn>
+                                    <v-btn @click="router.go(-1)" color="primary" variant="outlined" rounded="lg">{{
+                                        $t('buttonCancel')
+                                    }}</v-btn>
+                                </v-col>
+                            </v-row>
+                        </v-container>
+                    </v-form>
+                </v-card>
+            </v-col>
+        </v-row>
+    </v-container>
 </template>
 
 <script setup lang="ts">
@@ -69,12 +88,13 @@ import { useSuccessMessageStore } from '@/store';
 import { useErrorMessageStore } from '@/store/errorMessage';
 import { AxiosError } from 'axios';
 import { useI18n } from 'vue-i18n';
-import InputText from '@/components/TextInput.vue';
+import CustomInputText from '@/components/form/CustomTextInput.vue';
 import { User } from '@/client/models/User';
 import { onMounted } from 'vue';
 import { ref } from 'vue';
 import RoleService from '@/client/services/RoleService';
 import { Select } from '@/types/Select';
+import CustomMultiSelect from '@/components/form/CustomMultiSelect.vue';
 
 const router = useRouter();
 
@@ -92,7 +112,7 @@ const schema = yup.object({
         .required()
         .oneOf([yup.ref('password')], t('users.form.passwordConfirmationCustomValidationMessage'))
         .label(t('users.form.labelPasswordConfirmation')),
-    roles: yup.array().min(1).label(t('users.form.labelRole'))
+    roles: yup.array().min(1).label(t('users.form.labelRole')),
 });
 
 const { handleSubmit } = useForm({
@@ -103,7 +123,7 @@ const { handleSubmit } = useForm({
         email: '',
         password: '',
         password_confirmation: '',
-        roles: []
+        roles: [],
     },
 });
 
@@ -139,5 +159,17 @@ const getRoles = () => {
         .catch((error: AxiosError) => {
             errorMessageStore.triggerErrorMessage(error);
         });
-}
+};
+
+const breadcrumbItems = ref([
+    {
+        title: 'Users',
+        disabled: false,
+        to: { name: 'users' },
+    },
+    {
+        title: 'Create User',
+        disabled: true,
+    },
+]);
 </script>

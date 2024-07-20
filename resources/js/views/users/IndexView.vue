@@ -1,54 +1,73 @@
 <template>
-    <v-card rounded="lg">
-        <v-card-title>{{ $t('users.list.title') }}</v-card-title>
-        <v-card-item class="mb-4">
-            <v-text-field
-                v-model="searchKeyword"
-                :placeholder="t('users.list.placeholderSearchUsers')"
-                hide-details
-                variant="outlined"
-                density="compact"
-                prepend-inner-icon="mdi-magnify"
-                single-line
-                color="primary"
-                rounded="lg"
-                style="inline-size: 15rem"
-            ></v-text-field>
+    <v-container fluid class="px-8">
+        <v-breadcrumbs :items="breadcrumbItems">
+            <template v-slot:divider>
+                <v-icon icon="mdi-chevron-right"></v-icon>
+            </template>
+        </v-breadcrumbs>
+        <v-card rounded="lg">
+            <v-card-title class="px-8 py-4">{{ $t('users.list.title') }}</v-card-title>
+            <v-divider></v-divider>
+            <v-card-item class="px-8 py-4">
+                <v-text-field
+                    v-model="searchKeyword"
+                    :placeholder="t('users.list.placeholderSearchUsers')"
+                    hide-details
+                    variant="outlined"
+                    density="compact"
+                    prepend-inner-icon="mdi-magnify"
+                    single-line
+                    color="primary"
+                    rounded="lg"
+                    style="inline-size: 15rem"
+                ></v-text-field>
 
-            <template #append>
-                <v-btn v-if="permissionStore.hasPermission('create users')" :to="{ name: 'users_create' }" color="primary" rounded="lg">{{
-                    $t('users.list.btnCreateUser')
-                }}</v-btn>
-            </template>
-        </v-card-item>
+                <template #append>
+                    <v-btn
+                        v-if="permissionStore.hasPermission('create users')"
+                        :to="{ name: 'users_create' }"
+                        color="primary"
+                        rounded="lg"
+                        flat
+                        >{{ $t('users.list.btnCreateUser') }}</v-btn
+                    >
+                </template>
+            </v-card-item>
 
-        <v-data-table-server
-            v-model:items-per-page="usersPerPage"
-            :headers="headers"
-            :items="users"
-            :items-length="totalUsers"
-            :loading="loading"
-            :search="search"
-            item-value="id"
-            hover
-            rounded="0"
-            @update:options="loadUsers"
-        >
-            <template v-slot:item.role="{ item }">
-                {{ rolesFormatted(item.roles) }}
-            </template>
-            <template v-slot:item.action="{ item }">
-                <span v-if="permissionStore.hasPermission('update users')">
-                    <v-icon @click="editUser(item.id)" class="mr-2">mdi-pencil</v-icon>
-                    <v-tooltip activator="parent" location="bottom">{{ $t('users.list.tooltipEditUser') }}</v-tooltip>
-                </span>
-                <span v-if="permissionStore.hasPermission('delete users')">
-                    <v-icon @click="openDeleteDialog(item)">mdi-delete</v-icon>
-                    <v-tooltip activator="parent" location="bottom">{{ $t('users.list.tooltipDeleteUser') }}</v-tooltip>
-                </span>
-            </template>
-        </v-data-table-server>
-    </v-card>
+            <v-data-table-server
+                v-model:items-per-page="usersPerPage"
+                :headers="headers"
+                :items="users"
+                :items-length="totalUsers"
+                :loading="loading"
+                :search="search"
+                item-value="id"
+                hover
+                rounded="0"
+                class="px-8 pt-0 pb-4 table-max-height"
+                fixed-header
+                @update:options="loadUsers"
+            >
+                <template v-slot:item.role="{ item }">
+                    {{ rolesFormatted(item.roles) }}
+                </template>
+                <template v-slot:item.action="{ item }">
+                    <span v-if="permissionStore.hasPermission('update users')">
+                        <v-icon @click="editUser(item.id)" class="mr-2">mdi-pencil</v-icon>
+                        <v-tooltip activator="parent" location="bottom">{{
+                            $t('users.list.tooltipEditUser')
+                        }}</v-tooltip>
+                    </span>
+                    <span v-if="permissionStore.hasPermission('delete users')">
+                        <v-icon @click="openDeleteDialog(item)">mdi-delete</v-icon>
+                        <v-tooltip activator="parent" location="bottom">{{
+                            $t('users.list.tooltipDeleteUser')
+                        }}</v-tooltip>
+                    </span>
+                </template>
+            </v-data-table-server>
+        </v-card>
+    </v-container>
 
     <ConfirmationDialog
         v-model="dialogVisible"
@@ -174,6 +193,13 @@ watch(
 );
 
 const rolesFormatted = (roles) => {
-    return roles.map(role => role.name).join(', ')
-}
+    return roles.map((role) => role.name).join(', ');
+};
+
+const breadcrumbItems = ref([
+    {
+        title: 'Users',
+        disabled: true,
+    },
+]);
 </script>

@@ -1,13 +1,15 @@
 <template>
+    <v-label class="mb-2 font-weight-medium">{{ props.label }}</v-label>
     <v-textarea
-        :label="props.label"
         v-model="value"
         :error-messages="errorMessage"
         variant="outlined"
         color="primary"
-        density="compact"
+        density="comfortable"
         rounded="lg"
         hide-details="auto"
+        :placeholder="label"
+        rows="2"
     ></v-textarea>
 </template>
 

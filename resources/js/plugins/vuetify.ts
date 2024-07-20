@@ -41,6 +41,13 @@ export default createVuetify({
   icons: {
     defaultSet: 'mdi', // This is already the default value - only for display purposes
   },
+  defaults: {
+    global: {
+      font: {
+        family: 'Montserrat',
+      },
+    },
+  },
   locale: {
     locale: locale,
     fallback: fallbackLocale,

@@ -1,14 +1,17 @@
 <template>
+    <v-label class="mb-2 font-weight-medium">{{ props.label }}</v-label>
     <v-select
         v-model="value"
         :items="items"
-        :label="props.label"
         :error-messages="errorMessage"
+        chips
+        multiple
         variant="outlined"
         color="primary"
-        density="compact"
+        density="comfortable"
         rounded="lg"
         hide-details="auto"
+        :placeholder="props.label"
     ></v-select>
 </template>
 
@@ -30,5 +33,5 @@ const props = defineProps({
 
 // The `name` is returned in a function because we want to make sure it stays reactive
 // If the name changes you want `useField` to be able to pick it up
-const { value, errorMessage } = useField<string>(() => props.name);
+const { value, errorMessage } = useField<string[]>(() => props.name);
 </script>

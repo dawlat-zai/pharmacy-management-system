@@ -1,57 +1,76 @@
 <template>
-    <v-card rounded="lg">
-        <v-card-title>{{ $t('products.list.title') }}</v-card-title>
-        <v-card-item class="mb-4">
-            <v-text-field
-                v-model="searchKeyword"
-                :placeholder="t('products.list.placeholderSearchProduct')"
-                hide-details
-                variant="outlined"
-                density="compact"
-                prepend-inner-icon="mdi-magnify"
-                single-line
-                color="primary"
-                rounded="lg"
-                style="inline-size: 15rem"
-            ></v-text-field>
+    <v-container fluid class="px-8">
+        <v-breadcrumbs :items="breadcrumbItems">
+            <template v-slot:divider>
+                <v-icon icon="mdi-chevron-right"></v-icon>
+            </template>
+        </v-breadcrumbs>
+        <v-card rounded="lg">
+            <v-card-title class="px-8 py-4">{{ $t('products.list.title') }}</v-card-title>
+            <v-divider></v-divider>
+            <v-card-item class="px-8 py-4">
+                <v-text-field
+                    v-model="searchKeyword"
+                    :placeholder="t('products.list.placeholderSearchProduct')"
+                    hide-details
+                    variant="outlined"
+                    density="compact"
+                    prepend-inner-icon="mdi-magnify"
+                    single-line
+                    color="primary"
+                    rounded="lg"
+                    style="inline-size: 15rem"
+                ></v-text-field>
 
-            <template #append>
-                <v-btn v-if="permissionStore.hasPermission('create products')" :to="{ name: 'products_create' }" color="primary" rounded="lg">{{
-                    $t('products.list.btnCreateProduct')
-                }}</v-btn>
-            </template>
-        </v-card-item>
+                <template #append>
+                    <v-btn
+                        v-if="permissionStore.hasPermission('create products')"
+                        :to="{ name: 'products_create' }"
+                        color="primary"
+                        flat
+                        rounded="lg"
+                        >{{ $t('products.list.btnCreateProduct') }}</v-btn
+                    >
+                </template>
+            </v-card-item>
 
-        <v-data-table-server
-            v-model:items-per-page="productsPerPage"
-            :headers="headers"
-            :items="products"
-            :items-length="totalProducts"
-            :loading="loading"
-            :search="search"
-            item-value="id"
-            hover
-            rounded="0"
-            @update:options="loadProducts"
-        >
-            <template v-slot:item.category="{ item }">
-                {{ item.category?.name }}
-            </template>
-            <template v-slot:item.product_type="{ item }">
-                {{ item.product_type?.name }}
-            </template>
-            <template v-slot:item.action="{ item }">
-                <span v-if="permissionStore.hasPermission('update products')">
-                    <v-icon @click="editProduct(item.id)" class="mr-2">mdi-pencil</v-icon>
-                    <v-tooltip activator="parent" location="bottom">{{ $t('products.list.tooltipEditProduct') }}</v-tooltip>
-                </span>
-                <span>
-                    <v-icon @click="openDeleteDialog(item)">mdi-delete</v-icon>
-                    <v-tooltip activator="parent" location="bottom">{{ $t('products.list.tooltipDeleteProduct') }}</v-tooltip>
-                </span>
-            </template>
-        </v-data-table-server>
-    </v-card>
+            <v-data-table-server
+                v-model:items-per-page="productsPerPage"
+                :headers="headers"
+                :items="products"
+                :items-length="totalProducts"
+                :loading="loading"
+                :search="search"
+                item-value="id"
+                hover
+                rounded="0"
+                class="px-8 pt-0 pb-4 table-max-height"
+                fixed-header
+                @update:options="loadProducts"
+            >
+                <template v-slot:item.category="{ item }">
+                    {{ item.category?.name }}
+                </template>
+                <template v-slot:item.product_type="{ item }">
+                    {{ item.product_type?.name }}
+                </template>
+                <template v-slot:item.action="{ item }">
+                    <span v-if="permissionStore.hasPermission('update products')">
+                        <v-icon @click="editProduct(item.id)" class="mr-2">mdi-pencil</v-icon>
+                        <v-tooltip activator="parent" location="bottom">{{
+                            $t('products.list.tooltipEditProduct')
+                        }}</v-tooltip>
+                    </span>
+                    <span>
+                        <v-icon @click="openDeleteDialog(item)">mdi-delete</v-icon>
+                        <v-tooltip activator="parent" location="bottom">{{
+                            $t('products.list.tooltipDeleteProduct')
+                        }}</v-tooltip>
+                    </span>
+                </template>
+            </v-data-table-server>
+        </v-card>
+    </v-container>
 
     <ConfirmationDialog
         v-model="dialogVisible"
@@ -182,7 +201,14 @@ watch(
             { title: t('products.list.tableHeader.sale_price'), key: 'sale_price', align: 'start' },
             { title: t('products.list.tableHeader.quantity'), key: 'quantity', align: 'start' },
             { title: '', key: 'action', align: 'end' },
-        ]
+        ];
     },
 );
+
+const breadcrumbItems = ref([
+    {
+        title: 'Products',
+        disabled: true,
+    },
+]);
 </script>

@@ -1,9 +1,36 @@
 @import '_colors';
 
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: #EEEEEE;
+}
+
 .v-table__wrapper {
     border-radius: 0;
 }
 
-.v-table thead th {
-    background-color: #eeeeee !important;
+.v-breadcrumbs {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.main-heading {
+    font-size: 1.5rem!important;
+    font-weight: 500;
+    line-height: 2rem;
+    letter-spacing: normal!important;
+    font-family: inherit;
+    text-transform: none!important;
+}
+
+.font-weight-medium {
+    font-weight: 500 !important;
+}
+
+.v-btn {
+    text-transform: unset !important;
+}
+
+.table-max-height {
+    max-height: calc(100vh - 350px);
 }

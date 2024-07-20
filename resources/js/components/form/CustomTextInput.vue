@@ -1,14 +1,15 @@
 <template>
+    <v-label class="mb-2 font-weight-medium">{{ props.label }}</v-label>
     <v-text-field
         :type="type || 'text'"
-        :label="props.label"
         v-model="value"
         :error-messages="errorMessage"
         variant="outlined"
         color="primary"
-        density="compact"
+        density="comfortable"
         rounded="lg"
         hide-details="auto"
+        :placeholder="props.label"
     ></v-text-field>
 </template>
 

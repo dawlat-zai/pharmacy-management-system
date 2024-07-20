@@ -34,7 +34,3 @@ body {
 .table-max-height {
     max-height: calc(100vh - 350px);
 }
-
-.v-list-item--active > .v-list-item__overlay, .v-list-item > .v-list-item__overlay {
-    opacity: 0;
-}

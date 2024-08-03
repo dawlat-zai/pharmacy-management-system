@@ -5,6 +5,7 @@ use App\Http\Controllers\API\PermissionController;
 use App\Http\Controllers\API\ProductController;
 use App\Http\Controllers\API\ProductTypeController;
 use App\Http\Controllers\API\RoleController;
+use App\Http\Controllers\API\SaleController;
 use App\Http\Controllers\API\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -30,4 +31,5 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::apiResource('categories', CategoryController::class);
     Route::apiResource('product_types', ProductTypeController::class);
     Route::apiResource('products', ProductController::class);
+    Route::apiResource('sales', SaleController::class)->only('store');
 });

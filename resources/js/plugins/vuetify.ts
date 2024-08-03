@@ -10,7 +10,6 @@ import { defaultLocale, fallbackLocale } from '@/locales';
 import '@mdi/font/css/materialdesignicons.css';
 
 import "~/assets/scss/main.scss";
-import "/node_modules/flag-icons/css/flag-icons.min.css";
 
 import Cookies from 'js-cookie';
 
@@ -32,6 +31,7 @@ export default createVuetify({
           surface: '#FFFFFF',
           primary: '#2196F3',
           secondary: '#f38221',
+          danger: '#B00020',
           error: '#B00020',
           info: '#2196F3',
           success: '#4CAF50',

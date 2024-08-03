@@ -5,7 +5,8 @@
         "users": "Users",
         "roles": "Roles",
         "categories": "Categories",
-        "products": "Products"
+        "products": "Products",
+        "sale": "Sale"
     },
     "localeSwitcher": {
         "labelSelectLanguage": "Select Language"
@@ -143,6 +144,11 @@
             "labelPurchasePrice": "Purchase Price",
             "labelSalePrice": "Sale Price",
             "labelQuantity": "Quantity"
+        }
+    },
+    "sales": {
+        "create": {
+            "title": "New Sale"
         }
     },
     "validation": {

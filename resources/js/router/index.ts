@@ -163,6 +163,16 @@ const routes = [
         },
     },
     {
+        path: '/sales/create',
+        name: 'sales_create',
+        component: () => import('@/views/sales/CreateView.vue'),
+        beforeEnter: AuthGuard,
+        meta: {
+            layout: 'AppLayoutAdmin',
+            requiresPermission: 'create sales',
+        },
+    },
+    {
         path: '/unauthorized',
         name: 'unauthorized',
         component: () => import('@/views/UnauthorizedView.vue'),

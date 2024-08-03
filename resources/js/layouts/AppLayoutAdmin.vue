@@ -84,6 +84,14 @@
                         :active="(route.name as string).startsWith('products')"
                         :to="{ name: 'products' }"
                     ></v-list-item>
+                    <v-list-item
+                        v-if="permissionStore.hasPermission('create sales')"
+                        prepend-icon="mdi-sale"
+                        :title="t('sidebarMenu.sale')"
+                        value="sales_create"
+                        :active="(route.name as string).startsWith('sales')"
+                        :to="{ name: 'sales_create' }"
+                    ></v-list-item>
                 </v-list>
             </v-navigation-drawer>
 

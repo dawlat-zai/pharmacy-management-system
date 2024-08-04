@@ -6,14 +6,18 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreSaleRequest;
 use App\Models\Sale;
 use App\Models\SaleItem;
+use App\Traits\PrinterTrait;
 use App\Traits\SaleTrait;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
+use Mike42\Escpos\PrintConnectors\CupsPrintConnector;
+use Mike42\Escpos\PrintConnectors\FilePrintConnector;
+use Mike42\Escpos\Printer;
 
 class SaleController extends Controller
 {
-    use SaleTrait;
+    use SaleTrait, PrinterTrait;
 
     /**
      * Display a listing of the resource.
@@ -36,7 +40,7 @@ class SaleController extends Controller
 
         $total = $this->calculateTotal($subtotal, $discount);
 
-        DB::transaction(function() use ($input, $subtotal, $discount, $total) {
+        $sale = DB::transaction(function() use ($input, $subtotal, $discount, $total) {
             // Create the sale
             $sale = Sale::create([
                 'sub_total' => $subtotal,
@@ -54,8 +58,14 @@ class SaleController extends Controller
                 ]);
             }
 
-            return response()->json(['success' => true, 'sale' => $sale], Response::HTTP_OK);
+            return $sale;
         });
+
+        $sale->load('sale_items.product');
+        
+        $this->printSaleReceipt($sale);
+
+        return response()->json(['success' => true, 'sale' => $sale], Response::HTTP_OK);
     }
 
     /**

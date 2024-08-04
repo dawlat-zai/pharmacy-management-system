@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Sale extends Model
 {
@@ -11,4 +12,9 @@ class Sale extends Model
         'discount',
         'total',
     ];
+
+    public function sale_items(): HasMany
+    {
+        return $this->hasMany(SaleItem::class);
+    }
 }

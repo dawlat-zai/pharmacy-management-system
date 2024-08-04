@@ -38,8 +38,33 @@
                                 @update:model-value="(value) => addToCart(index, value)"
                             ></v-autocomplete>
                         </td>
-                        <td>{{ product.type }}</td>
-                        <td>{{ product.unit_price }}</td>
+                        <td>
+                            <v-text-field
+                                v-model="product.type"
+                                variant="outlined"
+                                color="primary"
+                                density="compact"
+                                rounded="lg"
+                                hide-details="auto"
+                                placeholder=""
+                                min="1"
+                                disabled
+                            ></v-text-field>
+                        </td>
+                        <td>
+                            <v-text-field
+                                type="number"
+                                v-model="product.unit_price"
+                                variant="outlined"
+                                color="primary"
+                                density="compact"
+                                rounded="lg"
+                                hide-details="auto"
+                                placeholder="0"
+                                min="0"
+                                disabled
+                            ></v-text-field>
+                        </td>
                         <td>
                             <v-text-field
                                 type="number"
@@ -54,10 +79,23 @@
                                 @update:model-value="updateQuantity(product)"
                             ></v-text-field>
                         </td>
-                        <td>{{ product.total_price }}</td>
+                        <td>
+                            <v-text-field
+                                type="number"
+                                v-model="product.total_price"
+                                variant="outlined"
+                                color="primary"
+                                density="compact"
+                                rounded="lg"
+                                hide-details="auto"
+                                placeholder="0"
+                                min="0"
+                                disabled
+                            ></v-text-field>
+                        </td>
                         <td>
                             <div class="d-flex ga-2">
-                                <v-btn color="danger" variant="tonal" @click="removeProduct(index)">
+                                <v-btn v-if="productsArray.length > 1" color="danger" variant="tonal" @click="removeProduct(index)">
                                     <v-icon icon="mdi-delete"></v-icon>
                                 </v-btn>
                                 <v-btn
@@ -76,17 +114,13 @@
             <v-table class="mx-4 my-8 custom-table" density="comfortable">
                 <tbody>
                     <tr>
-                        <td class="text-right text-h6">Sub total:</td>
-                        <td width="230px" class="text-right text-h6">{{ subTotal }}</td>
-                    </tr>
-                    <tr>
-                        <td class="text-right text-h6">Discount:</td>
-                        <td class="text-right d-flex flex-wrap ga-3 justify-end">
-                            <div style="width: 100px">
+                        <td class="text-right font-weight-medium py-1">Sub total:</td>
+                        <td width="230px" class="text-right font-weight-medium py-1">
+                            <div>
                                 <v-text-field
                                     type="number"
-                                    name="discount"
-                                    v-model="discount"
+                                    name="subtotal"
+                                    v-model="subTotal"
                                     variant="outlined"
                                     color="primary"
                                     density="compact"
@@ -94,30 +128,66 @@
                                     hide-details="auto"
                                     placeholder="0.00"
                                     min="0"
-                                    @update:model-value="calculateTotal"
+                                    disabled
                                 ></v-text-field>
-                            </div>
-                            <div style="width: 80px">
-                                <v-select
-                                    v-model="discountType"
-                                    :items="discountTypes"
-                                    variant="outlined"
-                                    color="primary"
-                                    density="compact"
-                                    rounded="lg"
-                                    hide-details="auto"
-                                    @update:model-value="calculateTotal"
-                                ></v-select>
                             </div>
                         </td>
                     </tr>
                     <tr>
-                        <td class="text-right text-h6">Total:</td>
-                        <td class="text-right text-h6">{{ total }}</td>
+                        <td class="text-right font-weight-medium py-1">Discount:</td>
+                        <td class="text-right py-1">
+                            <div class="d-flex flex-wrap ga-3 justify-between">
+                                <div style="width: 106px">
+                                    <v-text-field
+                                        type="number"
+                                        name="discount"
+                                        v-model="discount"
+                                        variant="outlined"
+                                        color="primary"
+                                        density="compact"
+                                        rounded="lg"
+                                        hide-details="auto"
+                                        placeholder="0.00"
+                                        min="0"
+                                        @update:model-value="calculateTotal"
+                                    ></v-text-field>
+                                </div>
+                                <div style="width: 80px">
+                                    <v-select
+                                        v-model="discountType"
+                                        :items="discountTypes"
+                                        variant="outlined"
+                                        color="primary"
+                                        density="compact"
+                                        rounded="lg"
+                                        hide-details="auto"
+                                        @update:model-value="calculateTotal"
+                                    ></v-select>
+                                </div>
+                            </div>
+                        </td>
                     </tr>
                     <tr>
-                        <td class="text-right text-h6">Payment:</td>
-                        <td class="text-right text-h6">
+                        <td class="text-right font-weight-medium py-1">Total:</td>
+                        <td class="text-right font-weight-medium py-1">
+                            <v-text-field
+                                type="number"
+                                name="total"
+                                v-model="total"
+                                variant="outlined"
+                                color="primary"
+                                density="compact"
+                                rounded="lg"
+                                hide-details="auto"
+                                placeholder="0.00"
+                                min="0"
+                                disabled
+                            ></v-text-field>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-right font-weight-medium py-1">Payment:</td>
+                        <td class="text-right font-weight-medium py-1">
                             <v-text-field
                                 type="number"
                                 name="discount"
@@ -134,16 +204,30 @@
                         </td>
                     </tr>
                     <tr>
-                        <td class="text-right text-h6">Change:</td>
-                        <td class="text-right text-h6">{{ change }}</td>
+                        <td class="text-right font-weight-medium py-1">Change:</td>
+                        <td class="text-right font-weight-medium py-1">
+                            <v-text-field
+                                type="number"
+                                name="change"
+                                v-model="change"
+                                variant="outlined"
+                                color="primary"
+                                density="compact"
+                                rounded="lg"
+                                hide-details="auto"
+                                placeholder="0.00"
+                                min="0"
+                                disabled
+                            ></v-text-field>
+                        </td>
                     </tr>
                     <tr>
                         <td colspan="2">
                             <div class="d-flex flex-wrap ga-4 justify-end mt-4">
-                                <v-btn color="error" size="x-large" variant="tonal" style="width: 150px">Cancel</v-btn>
+                                <v-btn color="error" size="large" variant="tonal" style="width: 150px">Cancel</v-btn>
                                 <v-btn
                                     color="primary"
-                                    size="x-large"
+                                    size="large"
                                     variant="flat"
                                     style="width: 150px"
                                     @click="saveOrder"
@@ -172,11 +256,20 @@ import { AxiosError } from 'axios';
 
 const errorMessageStore = useErrorMessageStore();
 
+type ProductType = {
+    id: number | undefined;
+    name: string | undefined;
+    type: string | undefined;
+    unit_price: number | undefined;
+    quantity: number | undefined;
+    total_price: number | undefined;
+}
+
 const getEmptyProduct = () => {
-    return {
-        id: 0,
-        name: '',
-        type: '',
+    return <ProductType>{
+        id: undefined,
+        name: undefined,
+        type: undefined,
         unit_price: 0,
         quantity: 0,
         total_price: 0,
@@ -307,7 +400,7 @@ const newSale = () => {
     total.value = 0;
     payment.value = 0;
     change.value = 0;
-}
+};
 
 const breadcrumbItems = ref([
     {

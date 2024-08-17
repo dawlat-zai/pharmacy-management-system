@@ -173,6 +173,36 @@ const routes = [
         },
     },
     {
+        path: '/suppliers',
+        name: 'suppliers',
+        component: () => import('@/views/suppliers/IndexView.vue'),
+        beforeEnter: AuthGuard,
+        meta: {
+            layout: 'AppLayoutAdmin',
+            requiresPermission: 'read suppliers',
+        },
+    },
+    {
+        path: '/suppliers/create',
+        name: 'suppliers_create',
+        component: () => import('@/views/suppliers/CreateView.vue'),
+        beforeEnter: AuthGuard,
+        meta: {
+            layout: 'AppLayoutAdmin',
+            requiresPermission: 'create suppliers',
+        },
+    },
+    {
+        path: '/suppliers/:id/edit',
+        name: 'suppliers_edit',
+        component: () => import('@/views/suppliers/EditView.vue'),
+        beforeEnter: AuthGuard,
+        meta: {
+            layout: 'AppLayoutAdmin',
+            requiresPermission: 'update suppliers',
+        },
+    },
+    {
         path: '/unauthorized',
         name: 'unauthorized',
         component: () => import('@/views/UnauthorizedView.vue'),

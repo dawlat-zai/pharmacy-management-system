@@ -6,12 +6,12 @@
             </template>
         </v-breadcrumbs>
         <v-card rounded="lg">
-            <v-card-title class="px-8 py-4">{{ $t('suppliers.list.title') }}</v-card-title>
+            <v-card-title class="px-8 py-4">{{ $t('manufacturers.list.title') }}</v-card-title>
             <v-divider></v-divider>
             <v-card-item class="px-8 py-4">
                 <v-text-field
                     v-model="searchKeyword"
-                    :placeholder="t('suppliers.list.placeholderSearchSupplier')"
+                    :placeholder="t('manufacturers.list.placeholderSearchManufacturer')"
                     hide-details
                     variant="outlined"
                     density="compact"
@@ -24,21 +24,21 @@
 
                 <template #append>
                     <v-btn
-                        v-if="permissionStore.hasPermission('create suppliers')"
-                        :to="{ name: 'suppliers_create' }"
+                        v-if="permissionStore.hasPermission('create manufacturers')"
+                        :to="{ name: 'manufacturers_create' }"
                         color="primary"
                         flat
                         rounded="lg"
-                        >{{ $t('suppliers.list.btnCreateSupplier') }}</v-btn
+                        >{{ $t('manufacturers.list.btnCreateManufacturer') }}</v-btn
                     >
                 </template>
             </v-card-item>
 
             <v-data-table-server
-                v-model:items-per-page="suppliersPerPage"
+                v-model:items-per-page="manufacturersPerPage"
                 :headers="headers"
-                :items="suppliers"
-                :items-length="totalSuppliers"
+                :items="manufacturers"
+                :items-length="totalManufacturers"
                 :loading="loading"
                 :search="search"
                 item-value="id"
@@ -46,22 +46,22 @@
                 rounded="0"
                 class="px-8 pt-0 pb-4 table-max-height"
                 fixed-header
-                @update:options="loadSuppliers"
+                @update:options="loadManufacturers"
             >
                 <template v-slot:item.is_active="{ item }">
                     <v-icon v-if="item.is_active">mdi-check</v-icon>
                 </template>
                 <template v-slot:item.action="{ item }">
-                    <span v-if="permissionStore.hasPermission('update suppliers')">
-                        <v-icon @click="editSupplier(item.id)" class="mr-2">mdi-pencil</v-icon>
+                    <span v-if="permissionStore.hasPermission('update manufacturers')">
+                        <v-icon @click="editManufacturer(item.id)" class="mr-2">mdi-pencil</v-icon>
                         <v-tooltip activator="parent" location="bottom">{{
-                            $t('suppliers.list.tooltipEditSupplier')
+                            $t('manufacturers.list.tooltipEditManufacturer')
                         }}</v-tooltip>
                     </span>
-                    <span v-if="permissionStore.hasPermission('delete suppliers')">
+                    <span v-if="permissionStore.hasPermission('delete manufacturers')">
                         <v-icon @click="openDeleteDialog(item)">mdi-delete</v-icon>
                         <v-tooltip activator="parent" location="bottom">{{
-                            $t('suppliers.list.tooltipDeleteSupplier')
+                            $t('manufacturers.list.tooltipDeleteManufacturer')
                         }}</v-tooltip>
                     </span>
                 </template>
@@ -71,16 +71,16 @@
 
     <ConfirmationDialog
         v-model="dialogVisible"
-        :title="t('suppliers.list.deleteConfirmationTitle')"
-        :message="t('suppliers.list.deleteConfirmationMessage')"
-        @confirm="deleteSupplier"
+        :title="t('manufacturers.list.deleteConfirmationTitle')"
+        :message="t('manufacturers.list.deleteConfirmationMessage')"
+        @confirm="deleteManufacturer"
         @cancel="cancelDelete"
     />
 </template>
 
 <script setup lang="ts">
-import { Supplier } from '@/client/models/Supplier';
-import SupplierService from '@/client/services/SupplierService';
+import { Manufacturer } from '@/client/models/Manufacturer';
+import ManufacturerService from '@/client/services/ManufacturerService';
 import router from '@/router';
 import { useErrorMessageStore, useLocaleStore, useSuccessMessageStore } from '@/store';
 import { AxiosError } from 'axios';
@@ -93,13 +93,13 @@ import { usePermissionStore } from '@/store/permission';
 
 const permissionStore = usePermissionStore();
 
-const suppliers = ref<Supplier[]>();
+const manufacturers = ref<Manufacturer[]>();
 
-const suppliersPerPage = ref(10);
+const manufacturersPerPage = ref(10);
 
 const loading = ref(true);
 
-const totalSuppliers = ref(0);
+const totalManufacturers = ref(0);
 
 const { t } = useI18n();
 
@@ -116,24 +116,24 @@ let debounceTimeout: number = 0;
 type ReadonlyHeaders = VDataTable['$props']['headers'];
 
 const headers = ref<ReadonlyHeaders>([
-    { title: t('suppliers.list.tableHeader.name'), key: 'name', align: 'start' },
-    { title: t('suppliers.list.tableHeader.email'), key: 'email', sortable: false, align: 'start' },
-    { title: t('suppliers.list.tableHeader.address'), key: 'address', sortable: false, align: 'start' },
-    { title: t('suppliers.list.tableHeader.phone_number'), key: 'phone_number', align: 'start' },
-    { title: t('suppliers.list.tableHeader.mobile_number'), key: 'mobile_number', align: 'start' },
-    { title: t('suppliers.list.tableHeader.contact_person'), key: 'contact_person', align: 'start' },
-    { title: t('suppliers.list.tableHeader.is_active'), key: 'is_active', align: 'start'},
+    { title: t('manufacturers.list.tableHeader.name'), key: 'name', align: 'start' },
+    { title: t('manufacturers.list.tableHeader.email'), key: 'email', sortable: false, align: 'start' },
+    { title: t('manufacturers.list.tableHeader.address'), key: 'address', sortable: false, align: 'start' },
+    { title: t('manufacturers.list.tableHeader.phone_number'), key: 'phone_number', align: 'start' },
+    { title: t('manufacturers.list.tableHeader.mobile_number'), key: 'mobile_number', align: 'start' },
+    { title: t('manufacturers.list.tableHeader.contact_person'), key: 'contact_person', align: 'start' },
+    { title: t('manufacturers.list.tableHeader.is_active'), key: 'is_active', align: 'start'},
     { title: '', key: 'action', align: 'end', width: 100 },
 ]);
 
-const loadSuppliers = ({ page, itemsPerPage, sortBy }: any) => {
+const loadManufacturers = ({ page, itemsPerPage, sortBy }: any) => {
     loading.value = true;
-    SupplierService.getAll(searchKeyword.value, itemsPerPage, page, sortBy[0]?.key, sortBy[0]?.order)
+    ManufacturerService.getAll(searchKeyword.value, itemsPerPage, page, sortBy[0]?.key, sortBy[0]?.order)
         .then((response: any) => {
             console.log('response: ', response);
-            suppliers.value = response.data;
-            suppliersPerPage.value = response.pagination.per_page;
-            totalSuppliers.value = response.pagination.total;
+            manufacturers.value = response.data;
+            manufacturersPerPage.value = response.pagination.per_page;
+            totalManufacturers.value = response.pagination.total;
             loading.value = false;
         })
         .catch((error: AxiosError) => {
@@ -152,49 +152,49 @@ const triggerSearch = () => {
     search.value = Date.now().toString();
 };
 
-const editSupplier = (id: number) => {
-    router.push({ name: 'suppliers_edit', params: { id: id } });
+const editManufacturer = (id: number) => {
+    router.push({ name: 'manufacturers_edit', params: { id: id } });
 };
 
 const dialogVisible = ref(false);
-const supplierToDelete = ref<Supplier | null>();
+const manufacturerToDelete = ref<Manufacturer | null>();
 
-const openDeleteDialog = (supplier: Supplier) => {
-    supplierToDelete.value = supplier;
+const openDeleteDialog = (manufacturer: Manufacturer) => {
+    manufacturerToDelete.value = manufacturer;
     dialogVisible.value = true;
 };
 
-const deleteSupplier = () => {
-    if (supplierToDelete.value) {
-        SupplierService.delete(supplierToDelete.value.id)
+const deleteManufacturer = () => {
+    if (manufacturerToDelete.value) {
+        ManufacturerService.delete(manufacturerToDelete.value.id)
             .then((response) => {
-                successMessageStore.triggerSuccessMessage('Supplier deleted successfully');
+                successMessageStore.triggerSuccessMessage('Manufacturer deleted successfully');
                 triggerSearch();
             })
             .catch((error: AxiosError) => {
                 errorMessageStore.triggerErrorMessage(error);
             });
 
-        // Reset supplierToDelete after deleting
-        supplierToDelete.value = null;
+        // Reset manufacturerToDelete after deleting
+        manufacturerToDelete.value = null;
     }
     dialogVisible.value = false;
 };
 
 const cancelDelete = () => {
-    supplierToDelete.value = null;
+    manufacturerToDelete.value = null;
 };
 watch(
     () => localeStore.locale,
     (newLocale) => {
         headers.value = [
-            { title: t('suppliers.list.tableHeader.name'), key: 'name', align: 'start' },
-            { title: t('suppliers.list.tableHeader.email'), key: 'email', sortable: false, align: 'start' },
-            { title: t('suppliers.list.tableHeader.address'), key: 'address', sortable: false, align: 'start' },
-            { title: t('suppliers.list.tableHeader.phone_number'), key: 'phone_number', align: 'start' },
-            { title: t('suppliers.list.tableHeader.mobile_number'), key: 'mobile_number', align: 'start' },
-            { title: t('suppliers.list.tableHeader.contact_person'), key: 'contact_person', align: 'start' },
-            { title: t('suppliers.list.tableHeader.is_active'), key: 'is_active', align: 'start'},
+            { title: t('manufacturers.list.tableHeader.name'), key: 'name', align: 'start' },
+            { title: t('manufacturers.list.tableHeader.email'), key: 'email', sortable: false, align: 'start' },
+            { title: t('manufacturers.list.tableHeader.address'), key: 'address', sortable: false, align: 'start' },
+            { title: t('manufacturers.list.tableHeader.phone_number'), key: 'phone_number', align: 'start' },
+            { title: t('manufacturers.list.tableHeader.mobile_number'), key: 'mobile_number', align: 'start' },
+            { title: t('manufacturers.list.tableHeader.contact_person'), key: 'contact_person', align: 'start' },
+            { title: t('manufacturers.list.tableHeader.is_active'), key: 'is_active', align: 'start'},
             { title: '', key: 'action', align: 'end', width: 100 },
         ];
     },
@@ -202,7 +202,7 @@ watch(
 
 const breadcrumbItems = ref([
     {
-        title: 'Suppliers',
+        title: 'Manufacturers',
         disabled: true,
     },
 ]);

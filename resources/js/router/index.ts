@@ -203,6 +203,36 @@ const routes = [
         },
     },
     {
+        path: '/manufacturers',
+        name: 'manufacturers',
+        component: () => import('@/views/manufacturers/IndexView.vue'),
+        beforeEnter: AuthGuard,
+        meta: {
+            layout: 'AppLayoutAdmin',
+            requiresPermission: 'read manufacturers',
+        },
+    },
+    {
+        path: '/manufacturers/create',
+        name: 'manufacturers_create',
+        component: () => import('@/views/manufacturers/CreateView.vue'),
+        beforeEnter: AuthGuard,
+        meta: {
+            layout: 'AppLayoutAdmin',
+            requiresPermission: 'create manufacturers',
+        },
+    },
+    {
+        path: '/manufacturers/:id/edit',
+        name: 'manufacturers_edit',
+        component: () => import('@/views/manufacturers/EditView.vue'),
+        beforeEnter: AuthGuard,
+        meta: {
+            layout: 'AppLayoutAdmin',
+            requiresPermission: 'update manufacturers',
+        },
+    },
+    {
         path: '/unauthorized',
         name: 'unauthorized',
         component: () => import('@/views/UnauthorizedView.vue'),

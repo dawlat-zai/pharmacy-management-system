@@ -77,6 +77,14 @@
                         :to="{ name: 'suppliers' }"
                     ></v-list-item>
                     <v-list-item
+                        v-if="permissionStore.hasPermission('read manufacturers')"
+                        prepend-icon="mdi-factory"
+                        :title="t('sidebarMenu.manufacturers')"
+                        value="manufacturers"
+                        :active="(route.name as string).startsWith('manufacturers')"
+                        :to="{ name: 'manufacturers' }"
+                    ></v-list-item>
+                    <v-list-item
                         v-if="permissionStore.hasPermission('read categories')"
                         prepend-icon="mdi-shape"
                         :title="t('sidebarMenu.categories')"
